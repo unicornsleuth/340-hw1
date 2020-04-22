@@ -1,4 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_padding">30dp</dimen>
+    <dimen name="temp_padding">70dp</dimen>
 </resources>
