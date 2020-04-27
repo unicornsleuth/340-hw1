@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="hotdog_cat" type="id">hotdog cat picture</item>
-    <item name="form_button" type="id">go to form</item>
+    <item name="hotdog_cat" type="id"></item>
+    <item name="form_button" type="id"></item>
 </resources>
