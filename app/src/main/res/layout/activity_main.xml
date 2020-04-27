@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/text_padding"
-        android:paddingVertical="@dimen/text_padding"
+        android:paddingTop="@dimen/text_padding"
         android:text="@string/my_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
@@ -18,25 +18,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/text_padding"
-        android:paddingVertical="@dimen/temp_padding"
         android:text="@string/date_created"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
     <ImageView
         android:id="@+id/hotdog_cat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:src="@drawable/hotdogcat"
         android:contentDescription="@string/is_cat_with_hotdog"
+        android:paddingVertical="@dimen/temp_padding"
         />
 
     <Button
         android:id="@+id/form_button"
         android:layout_height="@dimen/form_button_height"
         android:layout_width="@dimen/form_button_width"
-        android:layout_centerHorizontal="true"
-        android:text="@string/go_to_form_button"/>
+        android:text="@string/go_to_form_button"
+        android:layout_gravity="center_horizontal"/>
 
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
