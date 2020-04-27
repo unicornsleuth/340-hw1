@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:scrollbars="vertical">
     <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".ActivityForm"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -68,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_padding"
             android:text="@string/submit"
-            android:onClick="sendFeedback"
+            android:onClick="submitForm"
             android:layout_width="fill_parent">
         </Button>
 

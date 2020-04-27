@@ -1,6 +1,7 @@
 package com.example.lyaho340hw1;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -8,7 +9,10 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class FormActivity extends AppCompatActivity {
 
@@ -43,5 +47,26 @@ public class FormActivity extends AppCompatActivity {
                     }, currYear, currMonth, currDay);
             datePickerDialog.show();
         }
+    }
+
+    public void submitForm(View view) throws ParseException {
+        EditText nameField = findViewById(R.id.editText_name);
+        String name = nameField.getText().toString();
+        EditText emailField = findViewById(R.id.editText_email);
+        String email = emailField.getText().toString();
+        EditText usernameField = findViewById(R.id.editText_username);
+        String username = usernameField.getText().toString();
+        EditText dateField = findViewById(R.id.in_date);
+        String dateString = dateField.toString();
+        Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
+
+        Intent intent = new Intent(FormActivity.this, FormSuccessActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        // LARISSA TRY USING A BUNDLE HERE - THIS MAY BE THE PROBLEM ??
+        intent.putExtra("name", name)
+                .putExtra("email", email)
+                .putExtra("username", username)
+                .putExtra("date", date);
+        startActivity(intent);
     }
 }
