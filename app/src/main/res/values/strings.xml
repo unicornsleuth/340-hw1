@@ -2,14 +2,12 @@
     <string name="app_name">lyaho340HW1</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Larissa Yaholkovsky</string>
-    <string name="hello_second_fragment">2020/04/18</string>
+    <string name="my_name">Larissa Yaholkovsky</string>
     <string name="date_created">18 Apr 2020</string>
     <string name="is_cat_with_hotdog">is cat with hotdog</string>
-    <string name="hotdog_cat"></string>
+    <string name="go_to_form_button">FORM</string>
 </resources>

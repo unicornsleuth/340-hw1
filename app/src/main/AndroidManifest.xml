@@ -22,6 +22,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".FormActivity">
+            <intent-filter>
+
+            </intent-filter>
+        </activity>
+
 
     </application>
 
