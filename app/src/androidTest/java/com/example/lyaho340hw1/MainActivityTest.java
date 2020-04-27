@@ -12,14 +12,14 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest  {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> ActivityTestRule
-            = new ActivityScenarioRule<MainActivity>(MainActivity.class);
+    public ActivityScenarioRule<MainActivity> activityTestRule
+            = new ActivityScenarioRule<>(MainActivity.class);
+
 
     @Test
     public void hasImageOnScreen() {
@@ -32,7 +32,6 @@ public class MainActivityTest  {
         onView(withId(R.id.form_button))
                 .check(matches(withText(R.string.go_to_form_button)));
     }
-
 
 
 }
