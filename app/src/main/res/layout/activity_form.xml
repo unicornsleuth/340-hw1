@@ -56,9 +56,9 @@
             android:layout_width="fill_parent">
             <TextView
                 android:id="@+id/in_date"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/form_button_width"
                 android:textSize="@dimen/font_size_std"
-                android:layout_height="@dimen/form_button_height"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/text_padding"
                 android:hint="@string/date_of_birth"
                 android:layout_marginTop="@dimen/temp_padding" />

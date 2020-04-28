@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static java.util.Calendar.YEAR;
+
 public class FormActivity extends AppCompatActivity {
 
     @Override
@@ -27,7 +29,7 @@ public class FormActivity extends AppCompatActivity {
         if (view == findViewById(R.id.button_date)) {
             // Get Current Date
             final Calendar c = Calendar.getInstance();
-            int currYear = c.get(Calendar.YEAR);
+            int currYear = c.get(YEAR);
             int currMonth = c.get(Calendar.MONTH);
             int currDay = c.get(Calendar.DAY_OF_MONTH);
 
@@ -37,13 +39,14 @@ public class FormActivity extends AppCompatActivity {
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-                            TextView txtDate = findViewById(R.id.in_date);
-                            txtDate.setText(
-                                    new StringBuilder().append(dayOfMonth)
-                                                        .append("-")
-                                                        .append(monthOfYear + 1)
-                                                        .append("-")
-                                                        .append(year).toString());
+                            TextView dateField = findViewById(R.id.in_date);
+                            dateField.setError(null);
+                            dateField.setText(
+                                    new StringBuilder().append(String.format("%02d - %02d - %04d", dayOfMonth, monthOfYear + 1, year)).toString());
+                                                   //     .append("-")
+                                                  //      .append(monthOfYear + 1)
+                                                   //     .append("-")
+                                                    //    .append(year)).toString());
                         }
                     }, currYear, currMonth, currDay);
             datePickerDialog.show();
@@ -53,28 +56,54 @@ public class FormActivity extends AppCompatActivity {
     public void submitForm(View view) throws ParseException {
         EditText nameField = findViewById(R.id.editText_name);
         String name = nameField.getText().toString();
-        if (name.equals("")) { nameField.setError(String.valueOf(R.string.error_field_required)); }
-        nameField.setText("");
+        if (name.equals("")) { nameField.setError(getResources().getString(R.string.error_field_required)); }
         EditText emailField = findViewById(R.id.editText_email);
         String email = emailField.getText().toString();
-        emailField.setText("");
+        if (email.equals("")) { emailField.setError(getResources().getString(R.string.error_field_required)); }
         EditText usernameField = findViewById(R.id.editText_username);
         String username = usernameField.getText().toString();
-        usernameField.setText("");
+        if (username.equals("")) { usernameField.setError(getResources().getString(R.string.error_field_required)); }
         TextView dateField = findViewById(R.id.in_date);
         String dateString = dateField.getText().toString();
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
-        dateField.setText("");
+        Date date;
+        if (dateString.equals("")) {
+            dateField.setError(getResources().getString(R.string.error_field_required));
+            date = null;
+        } else {
+            Calendar birthday = Calendar.getInstance();
+            date = new SimpleDateFormat("dd - MM - yyyy").parse(dateString);
+            birthday.setTime(date);
 
-        Intent intent = new Intent(FormActivity.this, FormSuccessActivity.class);
-        intent.setAction(Intent.ACTION_VIEW);
-        // LARISSA TRY USING A BUNDLE HERE - THIS MAY BE THE PROBLEM ??
-        Bundle bundle = new Bundle();
-        bundle.putString(String.valueOf(R.string.name), name);
-        bundle.putString(String.valueOf(R.string.email), email);
-        bundle.putString(String.valueOf(R.string.username), username);
-        bundle.putSerializable(String.valueOf(R.string.birthdate), date);
-        intent.putExtra(String.valueOf(R.string.user_data), bundle);
-        startActivity(intent);
+            Calendar checkDate = Calendar.getInstance();
+            checkDate.add(YEAR, -18); // 18 years ago today
+            if (!birthday.before(checkDate)) {
+                dateField.setError(getResources().getString(R.string.check_age));
+                dateField.setHint(new StringBuilder("").append(checkDate.get(Calendar.DAY_OF_MONTH))
+                                        .append(" - ").append(checkDate.get(Calendar.MONTH))
+                                        .append(" - ").append(checkDate.get(Calendar.YEAR))); }
+
+        }
+
+
+        if ((nameField.getError() == null) &&
+                (emailField.getError() == null) &&
+                (usernameField.getError() == null) &&
+                (dateField.getError() == null)) {
+            Intent intent = new Intent(FormActivity.this, FormSuccessActivity.class);
+            intent.setAction(Intent.ACTION_VIEW);
+            startActivity(intent);
+            dateField.setText("");
+            Bundle bundle = new Bundle();
+            bundle.putString("NAME", name);
+            nameField.setText("");
+            bundle.putString("EMAIL", email);
+            emailField.setText("");
+            bundle.putString("USERNAME", username);
+            usernameField.setText("");
+            if (date != null) bundle.putSerializable("DATE", date);
+
+            intent.putExtra("USER_DATA_BUNDLE", bundle);
+
+        }
     }
 }
