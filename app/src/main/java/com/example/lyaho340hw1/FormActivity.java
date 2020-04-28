@@ -29,7 +29,7 @@ public class FormActivity extends AppCompatActivity {
         if (view == findViewById(R.id.button_date)) {
             // Get Current Date
             final Calendar c = Calendar.getInstance();
-            int currYear = c.get(YEAR);
+            int startYear = c.get(YEAR) - 18;
             int currMonth = c.get(Calendar.MONTH);
             int currDay = c.get(Calendar.DAY_OF_MONTH);
 
@@ -43,12 +43,9 @@ public class FormActivity extends AppCompatActivity {
                             dateField.setError(null);
                             dateField.setText(
                                     new StringBuilder().append(String.format("%02d - %02d - %04d", dayOfMonth, monthOfYear + 1, year)).toString());
-                                                   //     .append("-")
-                                                  //      .append(monthOfYear + 1)
-                                                   //     .append("-")
-                                                    //    .append(year)).toString());
+
                         }
-                    }, currYear, currMonth, currDay);
+                    }, startYear, currMonth, currDay);
             datePickerDialog.show();
         }
     }
@@ -78,9 +75,10 @@ public class FormActivity extends AppCompatActivity {
             checkDate.add(YEAR, -18); // 18 years ago today
             if (!birthday.before(checkDate)) {
                 dateField.setError(getResources().getString(R.string.check_age));
-                dateField.setHint(new StringBuilder("").append(checkDate.get(Calendar.DAY_OF_MONTH))
-                                        .append(" - ").append(checkDate.get(Calendar.MONTH))
-                                        .append(" - ").append(checkDate.get(Calendar.YEAR))); }
+                //dateField.setHint(new StringBuilder("").append(checkDate.get(Calendar.DAY_OF_MONTH))
+                  //                      .append(" - ").append(checkDate.get(Calendar.MONTH))
+                    //                    .append(" - ").append(checkDate.get(Calendar.YEAR))); }
+                dateField.setText(getResources().getString(R.string.check_age)); }
 
         }
 
