@@ -33,5 +33,10 @@ public class MainActivityTest  {
                 .check(matches(withText(R.string.go_to_form_button)));
     }
 
+   // @Test
+    //public void checkIntent() {
+
+    //}
+
 
 }

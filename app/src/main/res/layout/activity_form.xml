@@ -2,7 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/form_scroll_view"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:scrollbars="vertical">
     <LinearLayout
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_name"
             android:inputType="textPersonName"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:layout_width="fill_parent">
         </EditText>
 
@@ -49,21 +50,29 @@
             android:layout_width="fill_parent">
         </EditText>
 
-        <EditText
-            android:id="@+id/in_date"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:hint="@string/date_of_birth"
-            android:layout_marginTop="@dimen/temp_padding" />
+        <RelativeLayout
 
-        <Button
-            android:id="@+id/button_date"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_padding"
-            android:text="@string/select_date"
-            android:onClick="onDateClick"/>
+            android:layout_width="fill_parent">
+            <TextView
+                android:id="@+id/in_date"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/font_size_std"
+                android:layout_height="@dimen/form_button_height"
+                android:layout_marginHorizontal="@dimen/text_padding"
+                android:hint="@string/date_of_birth"
+                android:layout_marginTop="@dimen/temp_padding" />
+
+            <Button
+                android:id="@+id/button_date"
+                android:layout_width="@dimen/form_button_width"
+                android:layout_height="@dimen/form_button_height"
+                android:layout_alignBottom="@id/in_date"
+                android:layout_toEndOf="@id/in_date"
+                android:layout_marginTop="@dimen/text_padding"
+                android:text="@string/select_date"
+                android:onClick="onDateClick"/>
+        </RelativeLayout>
 
         <Button
             android:id="@+id/button_submit_form"

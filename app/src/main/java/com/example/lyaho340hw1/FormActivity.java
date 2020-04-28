@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,7 +37,7 @@ public class FormActivity extends AppCompatActivity {
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-                            EditText txtDate = findViewById(R.id.in_date);
+                            TextView txtDate = findViewById(R.id.in_date);
                             txtDate.setText(
                                     new StringBuilder().append(dayOfMonth)
                                                         .append("-")
@@ -52,21 +53,28 @@ public class FormActivity extends AppCompatActivity {
     public void submitForm(View view) throws ParseException {
         EditText nameField = findViewById(R.id.editText_name);
         String name = nameField.getText().toString();
+        if (name.equals("")) { nameField.setError(String.valueOf(R.string.error_field_required)); }
+        nameField.setText("");
         EditText emailField = findViewById(R.id.editText_email);
         String email = emailField.getText().toString();
+        emailField.setText("");
         EditText usernameField = findViewById(R.id.editText_username);
         String username = usernameField.getText().toString();
-        EditText dateField = findViewById(R.id.in_date);
-        String dateString = dateField.toString();
+        usernameField.setText("");
+        TextView dateField = findViewById(R.id.in_date);
+        String dateString = dateField.getText().toString();
         Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
+        dateField.setText("");
 
         Intent intent = new Intent(FormActivity.this, FormSuccessActivity.class);
         intent.setAction(Intent.ACTION_VIEW);
         // LARISSA TRY USING A BUNDLE HERE - THIS MAY BE THE PROBLEM ??
-        intent.putExtra("name", name)
-                .putExtra("email", email)
-                .putExtra("username", username)
-                .putExtra("date", date);
+        Bundle bundle = new Bundle();
+        bundle.putString(String.valueOf(R.string.name), name);
+        bundle.putString(String.valueOf(R.string.email), email);
+        bundle.putString(String.valueOf(R.string.username), username);
+        bundle.putSerializable(String.valueOf(R.string.birthdate), date);
+        intent.putExtra(String.valueOf(R.string.user_data), bundle);
         startActivity(intent);
     }
 }
