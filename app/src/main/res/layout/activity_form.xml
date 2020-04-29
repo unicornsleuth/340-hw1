@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_name"
             android:inputType="textPersonName"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:digits="@string/name_digits"
             android:layout_width="fill_parent">
         </EditText>
 
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_padding"
             android:hint="@string/enter_email"
+            android:digits="@string/email_username_digits"
             android:inputType="textEmailAddress"
             android:layout_width="fill_parent">
         </EditText>
@@ -46,7 +47,7 @@
             android:layout_marginTop="@dimen/text_padding"
             android:hint="@string/enter_username"
             android:inputType="text"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
+            android:digits="@string/email_username_digits"
             android:layout_width="fill_parent">
         </EditText>
 

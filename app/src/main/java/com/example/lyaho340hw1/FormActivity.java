@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.ParseException;
@@ -20,54 +21,94 @@ import static java.util.Calendar.YEAR;
 
 public class FormActivity extends AppCompatActivity {
 
+    private EditText nameField;
+    private EditText emailField;
+    private EditText usernameField;
+    private TextView dateField;
+    private static final String TAG = FormActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
-        Log.d(Constants.LIFECYCLE,"onCreate invoked");
+        nameField = findViewById(R.id.editText_name);
+        emailField = findViewById(R.id.editText_email);
+        usernameField = findViewById(R.id.editText_username);
+        dateField = findViewById(R.id.textView_date);
+        Log.d(TAG,"onCreate invoked");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(Constants.LIFECYCLE,"onStart invoked");
+        Log.d(TAG,"onStart invoked");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "onRestoreInstanceState invoked");
+
+        if (savedInstanceState.containsKey(Constants.KEY_NAME)) {
+            nameField.setText(savedInstanceState.getString(Constants.KEY_NAME));
+        }
+
+        if (savedInstanceState.containsKey(Constants.KEY_EMAIL)) {
+            emailField.setText(savedInstanceState.getString(Constants.KEY_EMAIL));
+        }
+
+        if (savedInstanceState.containsKey(Constants.KEY_USERNAME)) {
+            usernameField.setText(savedInstanceState.getString(Constants.KEY_USERNAME));
+        }
+
+        if (savedInstanceState.containsKey(Constants.KEY_DOB_STRING)) {
+            dateField.setText(savedInstanceState.getString(Constants.KEY_DOB_STRING));
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(Constants.LIFECYCLE, "onResume invoked");
+        Log.d(TAG, "onResume invoked");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        EditText nameField = findViewById(R.id.editText_name);
         nameField.setText("");
-        EditText emailField = findViewById(R.id.editText_email);
         emailField.setText("");
-        EditText usernameField = findViewById(R.id.editText_username);
         usernameField.setText("");
-        TextView dateField = findViewById(R.id.textView_date);
         dateField.setText(getResources().getString(R.string.date_of_birth));
-        Log.d(Constants.LIFECYCLE,"onResume invoked");
+        Log.d(TAG,"onResume invoked");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(Constants.LIFECYCLE,"onPause invoked");
+        Log.d(TAG,"onPause invoked");
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Log.d(TAG, "onSaveInstanceState invoked");
+        outState.putString(Constants.KEY_NAME, nameField.getText().toString());
+        outState.putString(Constants.KEY_EMAIL, emailField.getText().toString());
+        outState.putString(Constants.KEY_USERNAME, usernameField.getText().toString());
+        outState.putString(Constants.KEY_DOB_STRING, dateField.getText().toString());
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(Constants.LIFECYCLE,"onStop invoked");
+        Log.d(TAG,"onStop invoked");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(Constants.LIFECYCLE,"onDestroy invoked");
+        Log.d(TAG,"onDestroy invoked");
     }
 
     public void onDateClick(View view) {
@@ -96,16 +137,12 @@ public class FormActivity extends AppCompatActivity {
     }
 
     public void submitForm(View view) throws ParseException {
-        EditText nameField = findViewById(R.id.editText_name);
         String name = nameField.getText().toString();
         if (name.equals("")) { nameField.setError(getResources().getString(R.string.error_field_required)); }
-        EditText emailField = findViewById(R.id.editText_email);
         String email = emailField.getText().toString();
         if (email.equals("")) { emailField.setError(getResources().getString(R.string.error_field_required)); }
-        EditText usernameField = findViewById(R.id.editText_username);
         String username = usernameField.getText().toString();
         if (username.equals("")) { usernameField.setError(getResources().getString(R.string.error_field_required)); }
-        TextView dateField = findViewById(R.id.textView_date);
         String dateString = dateField.getText().toString();
         Date date;
         // DATE OF BIRTH VALIDATION
@@ -131,19 +168,18 @@ public class FormActivity extends AppCompatActivity {
                 (dateField.getError() == null)) {
             Intent intent = new Intent(FormActivity.this, FormSuccessActivity.class);
             intent.setAction(Intent.ACTION_VIEW);
-            startActivity(intent);
-            dateField.setText("");
+
             Bundle bundle = new Bundle();
             bundle.putString(Constants.KEY_NAME, name);
-            nameField.setText("");
             bundle.putString(Constants.KEY_EMAIL, email);
-            emailField.setText("");
             bundle.putString(Constants.KEY_USERNAME, username);
-            usernameField.setText("");
-            if (date != null) bundle.putSerializable(Constants.KEY_DOB, date);
+            if (date != null) {
+                bundle.putSerializable(Constants.KEY_DOB, date);
+                bundle.putString(Constants.KEY_DOB_STRING, dateString);
+            }
 
             intent.putExtra(Constants.KEY_USER_DATA, bundle);
-
+            startActivity(intent);
         }
     }
 }

@@ -19,8 +19,12 @@
     <string name="select_date">SELECT DATE</string>
     <string name="submit">SUBMIT</string>
 
-    <string name="thanks_signup">Thanks for Signing Up</string>
+    <string name="thanks_signup">Thanks for Signing Up </string>
     <string name="error_field_required">required field</string>
     <string name="check_age">must be 18 years or older</string>
+
+    // FORM VALIDATION STRINGS
+    <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ </string>
+    <string name="email_username_digits">"abcdefghijklmnopqrstuvwkyzABCDEFGHIJKLMNOPQRSTUVWXYZ@-_.1234567890"</string>
 
 </resources>
