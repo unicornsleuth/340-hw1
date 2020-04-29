@@ -19,7 +19,7 @@
     <string name="select_date">SELECT DATE</string>
     <string name="submit">SUBMIT</string>
 
-    <string name="thanks_signup">Thanks for Signing Up </string>
+    <string name="thanks_signup">Thanks for Signing Up</string>
     <string name="error_field_required">required field</string>
     <string name="check_age">must be 18 years or older</string>
 

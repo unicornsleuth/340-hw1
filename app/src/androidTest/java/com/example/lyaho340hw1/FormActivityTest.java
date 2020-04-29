@@ -45,8 +45,8 @@ public class FormActivityTest {
             onView(withId(R.id.editText_name)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_email)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_username)).check(matches(hasErrorText("required field")));
-            // for some reason this doesn't work with TextViews
-            // onView(withId(R.id.textView_date)).check(matches(hasErrorText("required field")));
+            // for some reason this doesn't work with TextViews?
+            //onView(withId(R.id.textView_date)).check(matches(hasErrorText("required field")));
         } catch (NoMatchingViewException e) {
             // copied your code from your ClickDemoActivityTest - not sure why we repeat same code in catch
             onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
