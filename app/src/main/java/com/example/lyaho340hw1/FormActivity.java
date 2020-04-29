@@ -128,7 +128,7 @@ public class FormActivity extends AppCompatActivity {
                             TextView dateField = findViewById(R.id.textView_date);
                             dateField.setError(null);
                             dateField.setText(
-                                    new StringBuilder().append(String.format("%02d - %02d - %04d", dayOfMonth, monthOfYear + 1, year)).toString());
+                                    ( new StringBuilder(String.format("%02d - %02d - %04d", dayOfMonth, monthOfYear + 1, year))).toString());
 
                         }
                     }, startYear, currMonth, currDay);
