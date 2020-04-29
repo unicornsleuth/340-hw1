@@ -24,15 +24,17 @@ public class FormSuccessActivity extends AppCompatActivity {
         confirmMessage = new StringBuilder(getString(R.string.thanks_signup));
 
         Intent incomingIntent = getIntent();
-        Bundle incomingState = incomingIntent.getExtras().getBundle(Constants.KEY_USER_DATA);
+        Bundle incomingState = incomingIntent.getExtras();
         String name = "Unknown";
 
         if (incomingState != null) {
-            if (incomingState.containsKey(Constants.KEY_NAME)) {
-                name = incomingState.getString(Constants.KEY_NAME);
+            Bundle incomingExtras = incomingState.getBundle(Constants.KEY_USER_DATA);
 
+            if (incomingExtras != null) {
+                if (incomingExtras.containsKey(Constants.KEY_NAME)) {
+                    name = incomingExtras.getString(Constants.KEY_NAME);
+                }
             }
-
         }
         confirmation.setText(confirmMessage.append(" ").append(name).toString());
         Log.d(TAG, "onCreate invoked");
