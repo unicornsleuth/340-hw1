@@ -13,17 +13,11 @@
 
     <string name="form_instructions">Please enter the following information:</string>
     <string name="enter_name">Type your name</string>
-    <string name="name">name</string>
     <string name="enter_email">Type your email address</string>
-    <string name="email">email</string>
     <string name="enter_username">Type your username</string>
-    <string name="username">username</string>
     <string name="date_of_birth">Date of Birth</string>
-    <string name="birthdate">birthdate</string>
     <string name="select_date">SELECT DATE</string>
     <string name="submit">SUBMIT</string>
-
-    <string name="user_data">user data bundle</string>
 
     <string name="thanks_signup">Thanks for Signing Up</string>
     <string name="error_field_required">required field</string>
