@@ -1,10 +1,14 @@
 package com.example.lyaho340hw1;
 
+import android.os.RemoteException;
+
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.uiautomator.UiDevice;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,8 +52,8 @@ public class FormActivityTest {
             onView(withId(R.id.editText_name)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_email)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_username)).check(matches(hasErrorText("required field")));
-            // for some reason this doesn't work with TextViews?
-            //onView(withId(R.id.textView_date)).check(matches(hasErrorText("required field")));
+            // for some reason this doesn't work with TextViews? -- yes, use getError() and setError() instead
+            onView(withId(R.id.editText_date)).check(matches(hasErrorText("required field")));
         } catch (NoMatchingViewException e) {
             // copied your code from your ClickDemoActivityTest - not sure why we repeat same code in catch
             onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
@@ -110,8 +114,40 @@ public class FormActivityTest {
         }
     }
 
-//    @Test
-//    public void rotationSavesInformation() {
-//
-//    }
+    @Test
+    public void rotationSavesInformation() throws RemoteException {
+        // Device for screen rotation
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        try {
+            // SET VALUES
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("testname"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("unicorn@unicorn.com"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
+            onView(withId(R.id.date_picker))
+                    .perform(PickerActions.setDate(2010, 5, 7));
+            onView(withId(R.id.button_date)).perform(click());
+            // ROTATE
+            device.setOrientationLeft();
+            // CHECK VALUES
+            onView(withId(R.id.editText_name)).check(matches(withText("testname")));
+            onView(withId(R.id.editText_email)).check(matches(withText("unicorn@unicorn.com")));
+            onView(withId(R.id.editText_username)).check(matches(withText("testusername")));
+            onView(withId(R.id.editText_date)).check(matches(withText("07 - 05 - 2010")));
+        } catch (NoMatchingViewException e) {
+            // SET VALUES
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("testname"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("unicorn@unicorn.com"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
+            onView(withId(R.id.date_picker))
+                    .perform(PickerActions.setDate(2010, 5, 7));
+            onView(withId(R.id.button_date)).perform(click());
+            // ROTATE
+            device.setOrientationLeft();
+            // CHECK VALUES
+            onView(withId(R.id.editText_name)).check(matches(withText("testname")));
+            onView(withId(R.id.editText_email)).check(matches(withText("unicorn@unicorn.com")));
+            onView(withId(R.id.editText_username)).check(matches(withText("testusername")));
+            onView(withId(R.id.editText_date)).check(matches(withText("07 - 05 - 2010")));
+        }
+    }
 }
