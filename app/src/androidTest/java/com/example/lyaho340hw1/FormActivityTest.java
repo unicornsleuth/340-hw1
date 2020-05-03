@@ -1,6 +1,8 @@
 package com.example.lyaho340hw1;
 
 import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -11,6 +13,7 @@ import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
@@ -32,7 +35,7 @@ public class FormActivityTest {
                 .check(matches(withHint(R.string.enter_email)));
         onView(withId(R.id.editText_username))
                 .check(matches(withHint(R.string.enter_username)));
-        onView(withId(R.id.textView_date))
+        onView(withId(R.id.editText_date))
                 .check(matches(withHint(R.string.date_of_birth)));
         onView(withId(R.id.button_date))
                 .check(matches(withText(R.string.select_date)));
@@ -56,4 +59,59 @@ public class FormActivityTest {
             //onView(withId(R.id.textView_date)).check(matches(hasErrorText("required field")));
         }
     }
+
+    @Test
+    public void emailValidationCheck() {
+        try {
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("test email"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
+            ViewActions.closeSoftKeyboard();
+            onView(withId(R.id.date_picker))
+                    .perform(PickerActions.setDate(1997, 5, 7));
+            onView(withId(R.id.button_date)).perform(click());
+            // upon submit, email field should get an error
+            onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
+            onView(withId(R.id.editText_email)).check(matches(hasErrorText("must enter valid email address")));
+        } catch (NoMatchingViewException e) {
+            onView(withId(R.id.date_picker))
+                    .perform(PickerActions.setDate(1991, 6, 30));
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("test email"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
+            // upon submit, email field should get an error
+            onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
+            onView(withId(R.id.editText_email)).check(matches(hasErrorText("must enter valid email address")));
+        }
+    }
+
+    @Test
+    public void dateValidationCheck() {
+        try {
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("larissa@unicorn.com"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
+            onView(withId(R.id.date_picker))
+                    .perform(PickerActions.setDate(2010, 5, 7));
+            onView(withId(R.id.button_date)).perform(click());
+            // upon submit, date field should get an error
+            onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
+            onView(withId(R.id.editText_date)).check(matches(hasErrorText("must be 18 years or older")));
+        } catch (NoMatchingViewException e) {
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("larissa@unicorn.com"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
+            onView(withId(R.id.date_picker))
+                    .perform(PickerActions.setDate(2010, 5, 7));
+            onView(withId(R.id.button_date)).perform(click());
+            // upon submit, date field should get an error
+            onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
+            onView(withId(R.id.editText_date)).check(matches(hasErrorText("must be 18 years or older")));
+        }
+    }
+
+//    @Test
+//    public void rotationSavesInformation() {
+//
+//    }
 }

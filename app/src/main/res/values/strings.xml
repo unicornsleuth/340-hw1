@@ -22,6 +22,7 @@
     <string name="thanks_signup">Thanks for Signing Up</string>
     <string name="error_field_required">required field</string>
     <string name="check_age">must be 18 years or older</string>
+    <string name="check_email">must enter valid email address</string>
 
     // FORM VALIDATION STRINGS
     <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ </string>

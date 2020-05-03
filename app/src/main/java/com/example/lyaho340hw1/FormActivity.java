@@ -1,9 +1,11 @@
 package com.example.lyaho340hw1;
 
-import android.app.DatePickerDialog;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,8 +26,12 @@ public class FormActivity extends AppCompatActivity {
     private EditText nameField;
     private EditText emailField;
     private EditText usernameField;
-    private TextView dateField;
+    private EditText dateField;
+    private DatePicker datePicker;
     private static final String TAG = FormActivity.class.getSimpleName();
+    private Calendar checkDate = Calendar.getInstance();
+    private Calendar today = Calendar.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +40,14 @@ public class FormActivity extends AppCompatActivity {
         nameField = findViewById(R.id.editText_name);
         emailField = findViewById(R.id.editText_email);
         usernameField = findViewById(R.id.editText_username);
-        dateField = findViewById(R.id.textView_date);
+        dateField = findViewById(R.id.editText_date);
+        datePicker = findViewById(R.id.date_picker);
+        checkDate.add(YEAR, -1 * Constants.AGE_OF_MAJORITY); // 18 years ago today
+        datePicker.updateDate(today.YEAR, today.MONTH, today.DAY_OF_MONTH);
+        // Wouldn't allow user to even select a date in the last 18 years
+//        datePicker.setMinDate(checkDate.YEAR, checkDate.MONTH, checkDate.DAY_OF_MONTH);
         Log.d(TAG,"onCreate invoked");
+
     }
 
     @Override
@@ -79,6 +91,7 @@ public class FormActivity extends AppCompatActivity {
         emailField.setText("");
         usernameField.setText("");
         dateField.setText(getResources().getString(R.string.date_of_birth));
+        datePicker.updateDate(today.YEAR, today.MONTH, today.DAY_OF_MONTH);
         Log.d(TAG,"onResume invoked");
     }
 
@@ -111,55 +124,83 @@ public class FormActivity extends AppCompatActivity {
         Log.d(TAG,"onDestroy invoked");
     }
 
+    @SuppressLint("DefaultLocale")
     public void onDateClick(View view) {
         if (view == findViewById(R.id.button_date)) {
+            // VERSION WITHOUT DATEPICKER
             // Get Current Date
-            final Calendar c = Calendar.getInstance();
-            int startYear = c.get(YEAR) - Constants.AGE_OF_MAJORITY;
-            int currMonth = c.get(Calendar.MONTH);
-            int currDay = c.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    new DatePickerDialog.OnDateSetListener() {
-
-                        @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
-                            TextView dateField = findViewById(R.id.textView_date);
-                            dateField.setError(null);
-                            dateField.setText(
-                                    ( new StringBuilder(String.format("%02d - %02d - %04d", dayOfMonth, monthOfYear + 1, year))).toString());
-
-                        }
-                    }, startYear, currMonth, currDay);
-            datePickerDialog.show();
+//            final Calendar c = Calendar.getInstance();
+//            int startYear = c.get(YEAR) - Constants.AGE_OF_MAJORITY;
+//            int currMonth = c.get(Calendar.MONTH);
+//            int currDay = c.get(Calendar.DAY_OF_MONTH);
+//
+//            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+//                    new DatePickerDialog.OnDateSetListener() {
+//
+//                        @Override
+//                        public void onDateSet(DatePicker view, int year,
+//                                              int monthOfYear, int dayOfMonth) {
+//                            TextView dateField = findViewById(R.id.textView_date);
+//                            dateField.setError(null);
+//                            dateField.setText(
+//                                    ( new StringBuilder(String.format("%02d - %02d - %04d", dayOfMonth, monthOfYear + 1, year))).toString());
+//
+//                        }
+//                    }, startYear, currMonth, currDay);
+//            datePickerDialog.show();
+//            VERSION WITH DATEPICKER
+            DatePicker datePicker = findViewById(R.id.date_picker);
+            TextView dateField = findViewById(R.id.editText_date);
+            dateField.setError(null);
+            dateField.setText(
+                    String.format("%02d - %02d - %04d",
+                            datePicker.getDayOfMonth(),
+                            datePicker.getMonth() + 1,
+                            datePicker.getYear()));
         }
     }
 
-    public void submitForm(View view) throws ParseException {
-        String name = nameField.getText().toString();
-        if (name.equals("")) { nameField.setError(getResources().getString(R.string.error_field_required)); }
-        String email = emailField.getText().toString();
-        if (email.equals("")) { emailField.setError(getResources().getString(R.string.error_field_required)); }
-        String username = usernameField.getText().toString();
-        if (username.equals("")) { usernameField.setError(getResources().getString(R.string.error_field_required)); }
-        String dateString = dateField.getText().toString();
-        Date date;
-        // DATE OF BIRTH VALIDATION
-        if (dateString.equals("")) { // HASN'T BEEN ENTERED
-            dateField.setError(getResources().getString(R.string.error_field_required));
-            date = null;
-        } else {
+    public Date dateValidation(String dateString) throws ParseException {
+        Date date = null;
+        if (!dateField.equals("")) {
             Calendar birthday = Calendar.getInstance();
             date = new SimpleDateFormat("dd - MM - yyyy").parse(dateString);
             birthday.setTime(date);
 
-            Calendar checkDate = Calendar.getInstance();
-            checkDate.add(YEAR, -1 * Constants.AGE_OF_MAJORITY); // 18 years ago today
             if (!birthday.before(checkDate)) {
                 dateField.setError(getResources().getString(R.string.check_age));
-                dateField.setText(getResources().getString(R.string.check_age)); }
+                dateField.setText(getResources().getString(R.string.check_age));
+             }
+        }
+        return date;
+    }
 
+    public boolean emailValidation(EditText emailView) {
+        String email = emailView.getText().toString();
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+    }
+
+    public void submitForm(View view) throws ParseException {
+        String name = nameField.getText().toString();
+        if (name.equals("")) { nameField.setError(getString(R.string.error_field_required)); }
+        String email = emailField.getText().toString();
+        // EMAIL VALIDATION
+        if (email.equals("")) { // HASN'T BEEN ENTERED
+            emailField.setError(getString(R.string.error_field_required));
+        } else if (!emailValidation(emailField)) { // EMAIL FIELD IS NOT EMPTY, BUT INVALID EMAIL
+            emailField.setError(getString(R.string.check_email));
+        }
+        String username = usernameField.getText().toString();
+        if (username.equals("")) { usernameField.setError(getString(R.string.error_field_required)); }
+        String dateString = dateField.getText().toString();
+        Date date;
+        // DATE OF BIRTH VALIDATION
+        if (dateString.equals("")) { // DATE HASN'T BEEN ENTERED
+            dateField.setError(getResources().getString(R.string.error_field_required));
+            date = null;
+        } else { // DATE FIELD IS NOT EMPTY
+            // took out DOB Age Validation - made its own method
+            date = dateValidation(dateString);
         }
         // IF NO ERRORS, START NEXT ACTIVITY
         if ((nameField.getError() == null) &&
