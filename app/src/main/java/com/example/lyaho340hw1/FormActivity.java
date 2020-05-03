@@ -127,28 +127,6 @@ public class FormActivity extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     public void onDateClick(View view) {
         if (view == findViewById(R.id.button_date)) {
-            // VERSION WITHOUT DATEPICKER
-            // Get Current Date
-//            final Calendar c = Calendar.getInstance();
-//            int startYear = c.get(YEAR) - Constants.AGE_OF_MAJORITY;
-//            int currMonth = c.get(Calendar.MONTH);
-//            int currDay = c.get(Calendar.DAY_OF_MONTH);
-//
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-//                    new DatePickerDialog.OnDateSetListener() {
-//
-//                        @Override
-//                        public void onDateSet(DatePicker view, int year,
-//                                              int monthOfYear, int dayOfMonth) {
-//                            TextView dateField = findViewById(R.id.textView_date);
-//                            dateField.setError(null);
-//                            dateField.setText(
-//                                    ( new StringBuilder(String.format("%02d - %02d - %04d", dayOfMonth, monthOfYear + 1, year))).toString());
-//
-//                        }
-//                    }, startYear, currMonth, currDay);
-//            datePickerDialog.show();
-//            VERSION WITH DATEPICKER
             DatePicker datePicker = findViewById(R.id.date_picker);
             TextView dateField = findViewById(R.id.editText_date);
             dateField.setError(null);
@@ -218,7 +196,6 @@ public class FormActivity extends AppCompatActivity {
                 bundle.putSerializable(Constants.KEY_DOB, date);
                 bundle.putString(Constants.KEY_DOB_STRING, dateString);
             }
-
             intent.putExtra(Constants.KEY_USER_DATA, bundle);
             startActivity(intent);
         }
