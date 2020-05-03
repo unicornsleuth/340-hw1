@@ -133,6 +133,8 @@ public class FormActivityTest {
             onView(withId(R.id.editText_email)).check(matches(withText("unicorn@unicorn.com")));
             onView(withId(R.id.editText_username)).check(matches(withText("testusername")));
             onView(withId(R.id.editText_date)).check(matches(withText("07 - 05 - 2010")));
+            // ROTATE
+            device.setOrientationNatural();
         } catch (NoMatchingViewException e) {
             // SET VALUES
             onView(withId(R.id.editText_name)).perform(click()).perform(typeText("testname"));
@@ -148,6 +150,8 @@ public class FormActivityTest {
             onView(withId(R.id.editText_email)).check(matches(withText("unicorn@unicorn.com")));
             onView(withId(R.id.editText_username)).check(matches(withText("testusername")));
             onView(withId(R.id.editText_date)).check(matches(withText("07 - 05 - 2010")));
+            // ROTATE BACK
+            device.setOrientationNatural();
         }
     }
 }
