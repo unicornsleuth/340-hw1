@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".FormSuccessActivity">
 
-
+        <ImageView
+            android:id="@+id/generic_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/generic_avatar"
+            android:contentDescription="@string/generic_avatar"
+            android:paddingBottom="@dimen/temp_padding"
+            />
         <TextView
-            android:id="@+id/confirmation"
+            android:id="@+id/textView_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@id/generic_avatar"
+            android:layout_below="@id/generic_avatar"
             android:paddingHorizontal="@dimen/text_padding"
-            android:text="@string/thanks_signup"
+            android:text="Placeholder Name"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textView_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/generic_avatar"
+            android:layout_gravity="end"
+            android:paddingHorizontal="@dimen/text_padding"
+            android:text="33"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/textView_bio"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_age"
+            android:layout_gravity="center"
+            android:paddingHorizontal="@dimen/text_padding"
+            android:text="33" />
+</RelativeLayout>

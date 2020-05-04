@@ -29,6 +29,7 @@
     // FORM VALIDATION STRINGS
     <string name="name_digits">abcdefghijklmnopqrstuvwxyz-\' ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="email_username_digits">"abcdefghijklmnopqrstuvwkyzABCDEFGHIJKLMNOPQRSTUVWXYZ@-_.1234567890"</string>
+    <string name="generic_avatar">generic avatar for profile picture</string>
 
 
 </resources>
