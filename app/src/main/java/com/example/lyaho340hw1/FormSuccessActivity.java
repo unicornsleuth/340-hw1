@@ -46,11 +46,16 @@ public class FormSuccessActivity extends AppCompatActivity {
         Log.d(TAG,"onStart invoked");
     }
 
+
+
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         confirmMessage = new StringBuilder(getString(R.string.thanks_signup));
         if (savedInstanceState.containsKey(Constants.KEY_NAME)) {
             confirmation.setText(confirmMessage.append(savedInstanceState.getString(Constants.KEY_NAME))); // test to see if this still has the name appended
+        }
+        if (savedInstanceState.containsKey(Constants.KEY_CONFIRM)) {
+            confirmation.setText(savedInstanceState.getString(Constants.KEY_CONFIRM));
         }
     }
 
@@ -74,6 +79,16 @@ public class FormSuccessActivity extends AppCompatActivity {
         super.onRestart();
         Log.d(TAG,"onRestart invoked");
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Log.d(TAG, "onSaveInstanceState invoked");
+        outState.putString(Constants.KEY_CONFIRM, confirmMessage.toString());
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

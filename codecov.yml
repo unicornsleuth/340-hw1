@@ -20,5 +20,5 @@ comment:
   require_changes: false
 
 
-## ignore:
-##    - "app/src/main/java/com/example/djackad340/Constants.java"  # ignore Constants.java
+ ignore:
+    - "app/src/main/java/com/example/lyaho340hw1/Constants.java"  # ignore Constants.java

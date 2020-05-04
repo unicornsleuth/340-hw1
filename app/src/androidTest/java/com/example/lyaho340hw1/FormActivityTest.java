@@ -115,8 +115,6 @@ public class FormActivityTest {
 
     @Test
     public void rotationSavesInformation() throws RemoteException {
-        // Device for screen rotation
-        //UiDevice device = UiDevice.getInstance(getInstrumentation());
         Activity activity = TestUtils.getActivity();
         try {
             // SET VALUES

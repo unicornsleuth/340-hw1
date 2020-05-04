@@ -1,6 +1,7 @@
 package com.example.lyaho340hw1;
 
 public class Constants {
+    public static final String KEY_CONFIRM = "confirmation";
     static final String KEY_NAME = "name";
     static final String KEY_EMAIL = "email";
     static final String KEY_USERNAME = "username";
