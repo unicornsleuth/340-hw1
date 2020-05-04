@@ -27,6 +27,7 @@ public class FormActivity extends AppCompatActivity {
     private EditText emailField;
     private EditText usernameField;
     private EditText occupationField;
+    private EditText bioField;
     private EditText dateField;
     private DatePicker datePicker;
     private static final String TAG = FormActivity.class.getSimpleName();
@@ -42,6 +43,7 @@ public class FormActivity extends AppCompatActivity {
         emailField = findViewById(R.id.editText_email);
         usernameField = findViewById(R.id.editText_username);
         occupationField = findViewById(R.id.editText_occupation);
+        bioField = findViewById(R.id.editText_bio);
         dateField = findViewById(R.id.editText_date);
         datePicker = findViewById(R.id.date_picker);
         checkDate.add(YEAR, -1 * Constants.AGE_OF_MAJORITY); // 18 years ago today
@@ -80,7 +82,11 @@ public class FormActivity extends AppCompatActivity {
         }
 
         if (savedInstanceState.containsKey(Constants.KEY_OCCUPATION)) {
-            dateField.setText(savedInstanceState.getString(Constants.KEY_OCCUPATION));
+            occupationField.setText(savedInstanceState.getString(Constants.KEY_OCCUPATION));
+        }
+
+        if (savedInstanceState.containsKey(Constants.KEY_BIO)) {
+            bioField.setText(savedInstanceState.getString(Constants.KEY_BIO));
         }
     }
 
@@ -97,6 +103,7 @@ public class FormActivity extends AppCompatActivity {
         emailField.setText("");
         usernameField.setText("");
         occupationField.setText("");
+        bioField.setText("");
         dateField.setText(getResources().getString(R.string.date_of_birth));
         datePicker.updateDate(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
         Log.d(TAG,"onResume invoked");
@@ -117,6 +124,7 @@ public class FormActivity extends AppCompatActivity {
         outState.putString(Constants.KEY_EMAIL, emailField.getText().toString());
         outState.putString(Constants.KEY_USERNAME, usernameField.getText().toString());
         outState.putString(Constants.KEY_OCCUPATION, occupationField.getText().toString());
+        outState.putString(Constants.KEY_BIO, bioField.getText().toString());
         outState.putString(Constants.KEY_DOB_STRING, dateField.getText().toString());
     }
 
@@ -183,6 +191,9 @@ public class FormActivity extends AppCompatActivity {
         // OCCUPATION VALIDATION
         String occupation = occupationField.getText().toString();
         if(occupation.equals("")) { occupationField.setError(getString(R.string.error_field_required)); }
+        // BIO VALIDATION
+        String bio = bioField.getText().toString();
+        if(bio.equals("")) { bioField.setError(getString(R.string.error_field_required)); }
         // DATE OF BIRTH VALIDATION
         String dateString = dateField.getText().toString();
         Date date;
@@ -198,6 +209,7 @@ public class FormActivity extends AppCompatActivity {
                 (emailField.getError() == null) &&
                 (usernameField.getError() == null) &&
                 (occupationField.getError() == null) &&
+                (bioField.getError() == null) &&
                 (dateField.getError() == null)) {
             Intent intent = new Intent(FormActivity.this, FormSuccessActivity.class);
             intent.setAction(Intent.ACTION_VIEW);
@@ -207,6 +219,7 @@ public class FormActivity extends AppCompatActivity {
             bundle.putString(Constants.KEY_EMAIL, email);
             bundle.putString(Constants.KEY_USERNAME, username);
             bundle.putString(Constants.KEY_OCCUPATION, occupation);
+            bundle.putString(Constants.KEY_BIO, bio);
             if (date != null) {
                 bundle.putSerializable(Constants.KEY_DOB, date);
                 bundle.putString(Constants.KEY_DOB_STRING, dateString);

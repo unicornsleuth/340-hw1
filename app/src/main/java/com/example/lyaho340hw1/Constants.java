@@ -3,6 +3,7 @@ package com.example.lyaho340hw1;
 public class Constants {
     static final String KEY_CONFIRM = "confirmation";
     static final String KEY_OCCUPATION = "occupation";
+    static final String KEY_BIO = "description";
     static final String KEY_NAME = "name";
     static final String KEY_EMAIL = "email";
     static final String KEY_USERNAME = "username";

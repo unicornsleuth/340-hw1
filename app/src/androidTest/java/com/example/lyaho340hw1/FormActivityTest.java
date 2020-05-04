@@ -53,6 +53,7 @@ public class FormActivityTest {
             onView(withId(R.id.editText_email)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_username)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_occupation)).check(matches(hasErrorText("required field")));
+            onView(withId(R.id.editText_bio)).check(matches(hasErrorText("required field")));
             // for some reason this doesn't work with TextViews? -- yes, use getError() and setError() instead
             onView(withId(R.id.editText_date)).check(matches(hasErrorText("required field")));
         } catch (NoMatchingViewException e) {
@@ -62,6 +63,7 @@ public class FormActivityTest {
             onView(withId(R.id.editText_email)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_username)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_occupation)).check(matches(hasErrorText("required field")));
+            onView(withId(R.id.editText_bio)).check(matches(hasErrorText("required field")));
             onView(withId(R.id.editText_date)).check(matches(hasErrorText("required field")));
         }
     }
@@ -69,10 +71,11 @@ public class FormActivityTest {
     @Test
     public void emailValidationCheck() {
         try {
-            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
-            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("test email"));
-            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
-            onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("testname"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("testemail"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
+            onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("testoccupation"));
+            onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("testbio"));
             ViewActions.closeSoftKeyboard();
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(1997, 5, 7));
@@ -84,9 +87,10 @@ public class FormActivityTest {
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(1991, 6, 30));
             onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
-            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("test email"));
-            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("testemail"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
+            onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
             // upon submit, email field should get an error
             onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
             onView(withId(R.id.editText_email)).check(matches(hasErrorText("must enter valid email address")));
@@ -97,9 +101,10 @@ public class FormActivityTest {
     public void dateValidationCheck() {
         try {
             onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
-            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("larissa@unicorn.com"));
-            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
+            onView(withId(R.id.editText_email)).perform(click()).perform(typeText("test@test.com"));
+            onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
+            onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(2010, 5, 7));
             onView(withId(R.id.button_date)).perform(click());
@@ -111,6 +116,7 @@ public class FormActivityTest {
             onView(withId(R.id.editText_email)).perform(click()).perform(typeText("larissa@unicorn.com"));
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
+            onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(2010, 5, 7));
             onView(withId(R.id.button_date)).perform(click());
@@ -125,41 +131,47 @@ public class FormActivityTest {
         Activity activity = TestUtils.getActivity();
         try {
             // SET VALUES
-            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("testname"));
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
             onView(withId(R.id.editText_email)).perform(click()).perform(typeText("unicorn@unicorn.com"));
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
-            onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("testoccupation"));
+            onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
+            onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
+
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(2010, 5, 7));
             onView(withId(R.id.button_date)).perform(click());
             // ROTATE
             TestUtils.rotateScreen(activity);
             // CHECK VALUES
-            onView(withId(R.id.editText_name)).check(matches(withText("testname")));
+            onView(withId(R.id.editText_name)).check(matches(withText("test name")));
             onView(withId(R.id.editText_email)).check(matches(withText("unicorn@unicorn.com")));
             onView(withId(R.id.editText_username)).check(matches(withText("testusername")));
-            onView(withId(R.id.editText_occupation)).check(matches(withText("testoccupation")));
+            onView(withId(R.id.editText_occupation)).check(matches(withText("test occupation")));
+            onView(withId(R.id.editText_bio)).check(matches(withText("test bio")));
             onView(withId(R.id.editText_date)).check(matches(withText("07 - 05 - 2010")));
             // ROTATE
             TestUtils.rotateScreen(activity);
         } catch (NoMatchingViewException e) {
             // SET VALUES
-            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("testname"));
+            onView(withId(R.id.editText_name)).perform(click()).perform(typeText("test name"));
             onView(withId(R.id.editText_email)).perform(click()).perform(typeText("unicorn@unicorn.com"));
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
-            onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("testoccupation"));
+            onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
+            onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
+
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(2010, 5, 7));
             onView(withId(R.id.button_date)).perform(click());
             // ROTATE
             TestUtils.rotateScreen(activity);
             // CHECK VALUES
-            onView(withId(R.id.editText_name)).check(matches(withText("testname")));
+            onView(withId(R.id.editText_name)).check(matches(withText("test name")));
             onView(withId(R.id.editText_email)).check(matches(withText("unicorn@unicorn.com")));
             onView(withId(R.id.editText_username)).check(matches(withText("testusername")));
-            onView(withId(R.id.editText_occupation)).check(matches(withText("testoccupation")));
+            onView(withId(R.id.editText_occupation)).check(matches(withText("test occupation")));
+            onView(withId(R.id.editText_bio)).check(matches(withText("test bio")));
             onView(withId(R.id.editText_date)).check(matches(withText("07 - 05 - 2010")));
-            // ROTATE BACK
+            // ROTATE
             TestUtils.rotateScreen(activity);
         }
     }
