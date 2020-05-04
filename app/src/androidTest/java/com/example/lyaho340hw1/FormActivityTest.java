@@ -3,7 +3,6 @@ package com.example.lyaho340hw1;
 import android.app.Activity;
 
 import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -12,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
@@ -76,10 +76,10 @@ public class FormActivityTest {
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("testoccupation"));
             onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("testbio"));
-            ViewActions.closeSoftKeyboard();
+            closeSoftKeyboard();
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(1997, 5, 7));
-            onView(withId(R.id.button_date)).perform(click());
+            onView(withId(R.id.button_date)).perform(scrollTo(), click());
             // upon submit, email field should get an error
             onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
             onView(withId(R.id.editText_email)).check(matches(hasErrorText("must enter valid email address")));
@@ -91,6 +91,10 @@ public class FormActivityTest {
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
             onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
+            closeSoftKeyboard();
+            onView(withId(R.id.date_picker))
+                    .perform(PickerActions.setDate(1997, 5, 7));
+            onView(withId(R.id.button_date)).perform(scrollTo(), click());
             // upon submit, email field should get an error
             onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
             onView(withId(R.id.editText_email)).check(matches(hasErrorText("must enter valid email address")));
@@ -105,9 +109,10 @@ public class FormActivityTest {
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
             onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
+            closeSoftKeyboard();
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(2010, 5, 7));
-            onView(withId(R.id.button_date)).perform(click());
+            onView(withId(R.id.button_date)).perform(scrollTo(), click());
             // upon submit, date field should get an error
             onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
             onView(withId(R.id.editText_date)).check(matches(hasErrorText("must be 18 years or older")));
@@ -117,9 +122,10 @@ public class FormActivityTest {
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("test username"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
             onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
+            closeSoftKeyboard();
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(2010, 5, 7));
-            onView(withId(R.id.button_date)).perform(click());
+            onView(withId(R.id.button_date)).perform(scrollTo(), click());
             // upon submit, date field should get an error
             onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
             onView(withId(R.id.editText_date)).check(matches(hasErrorText("must be 18 years or older")));
@@ -136,10 +142,10 @@ public class FormActivityTest {
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
             onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
-
+            closeSoftKeyboard();
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(2010, 5, 7));
-            onView(withId(R.id.button_date)).perform(click());
+            onView(withId(R.id.button_date)).perform(scrollTo(), click());
             // ROTATE
             TestUtils.rotateScreen(activity);
             // CHECK VALUES
@@ -158,10 +164,10 @@ public class FormActivityTest {
             onView(withId(R.id.editText_username)).perform(click()).perform(typeText("testusername"));
             onView(withId(R.id.editText_occupation)).perform(click()).perform(typeText("test occupation"));
             onView(withId(R.id.editText_bio)).perform(click()).perform(typeText("test bio"));
-
+            closeSoftKeyboard();
             onView(withId(R.id.date_picker))
                     .perform(PickerActions.setDate(2010, 5, 7));
-            onView(withId(R.id.button_date)).perform(click());
+            onView(withId(R.id.button_date)).perform(scrollTo(), click());
             // ROTATE
             TestUtils.rotateScreen(activity);
             // CHECK VALUES
