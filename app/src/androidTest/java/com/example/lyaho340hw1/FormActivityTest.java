@@ -181,6 +181,4 @@ public class FormActivityTest {
             TestUtils.rotateScreen(activity);
         }
     }
-
-
 }
