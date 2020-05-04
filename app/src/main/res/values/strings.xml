@@ -15,6 +15,7 @@
     <string name="enter_name">Type your name</string>
     <string name="enter_email">Type your email address</string>
     <string name="enter_username">Type your username</string>
+    <string name="enter_occupation">Type your occupation</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="select_date">SELECT DATE</string>
     <string name="submit">SUBMIT</string>
@@ -27,5 +28,6 @@
     // FORM VALIDATION STRINGS
     <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ </string>
     <string name="email_username_digits">"abcdefghijklmnopqrstuvwkyzABCDEFGHIJKLMNOPQRSTUVWXYZ@-_.1234567890"</string>
+
 
 </resources>

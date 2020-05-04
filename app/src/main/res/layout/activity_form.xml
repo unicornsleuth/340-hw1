@@ -51,29 +51,19 @@
             android:layout_width="fill_parent">
         </EditText>
 
+        <EditText
+            android:id="@+id/editText_occupation"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_padding"
+            android:hint="@string/enter_occupation"
+            android:inputType="text"
+            android:layout_width="fill_parent">
+        </EditText>
+
         <RelativeLayout
 
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
-            <EditText
-                android:id="@+id/editText_date"
-                android:editable="false"
-                android:layout_width="@dimen/form_button_width"
-                android:textSize="@dimen/font_size_std"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/text_padding"
-                android:hint="@string/date_of_birth"
-                android:layout_marginTop="@dimen/temp_padding" />
-
-            <Button
-                android:id="@+id/button_date"
-                android:layout_width="@dimen/form_button_width"
-                android:layout_height="@dimen/form_button_height"
-                android:layout_alignBottom="@id/editText_date"
-                android:layout_toEndOf="@id/editText_date"
-                android:layout_marginTop="@dimen/text_padding"
-                android:text="@string/select_date"
-                android:onClick="onDateClick"/>
 
             <DatePicker
                 android:id="@+id/date_picker"
@@ -81,6 +71,27 @@
                 android:layout_height="wrap_content"
                 android:datePickerMode="spinner"
                 android:calendarViewShown="false"/>
+
+            <Button
+                android:id="@+id/button_date"
+                android:layout_width="@dimen/form_button_width"
+                android:layout_height="@dimen/form_button_height"
+                android:layout_toEndOf="@id/date_picker"
+                android:layout_marginTop="@dimen/temp_padding"
+                android:text="@string/select_date"
+                android:onClick="onDateClick"/>
+
+            <EditText
+                android:id="@+id/editText_date"
+                android:layout_width="@dimen/form_button_width"
+                android:textSize="@dimen/font_size_std"
+                android:layout_below="@id/button_date"
+                android:layout_toEndOf="@id/date_picker"
+                android:layout_alignBottom="@id/date_picker"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:hint="@string/date_of_birth"
+                 />
 
         </RelativeLayout>
 

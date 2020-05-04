@@ -26,6 +26,7 @@ public class FormActivity extends AppCompatActivity {
     private EditText nameField;
     private EditText emailField;
     private EditText usernameField;
+    private EditText occupationField;
     private EditText dateField;
     private DatePicker datePicker;
     private static final String TAG = FormActivity.class.getSimpleName();
@@ -40,10 +41,11 @@ public class FormActivity extends AppCompatActivity {
         nameField = findViewById(R.id.editText_name);
         emailField = findViewById(R.id.editText_email);
         usernameField = findViewById(R.id.editText_username);
+        occupationField = findViewById(R.id.editText_occupation);
         dateField = findViewById(R.id.editText_date);
         datePicker = findViewById(R.id.date_picker);
         checkDate.add(YEAR, -1 * Constants.AGE_OF_MAJORITY); // 18 years ago today
-        datePicker.updateDate(today.YEAR, today.MONTH, today.DAY_OF_MONTH);
+        datePicker.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH) , today.get(Calendar.DAY_OF_MONTH));
         // Wouldn't allow user to even select a date in the last 18 years
 //        datePicker.setMinDate(checkDate.YEAR, checkDate.MONTH, checkDate.DAY_OF_MONTH);
         Log.d(TAG,"onCreate invoked");
@@ -76,6 +78,10 @@ public class FormActivity extends AppCompatActivity {
         if (savedInstanceState.containsKey(Constants.KEY_DOB_STRING)) {
             dateField.setText(savedInstanceState.getString(Constants.KEY_DOB_STRING));
         }
+
+        if (savedInstanceState.containsKey(Constants.KEY_OCCUPATION)) {
+            dateField.setText(savedInstanceState.getString(Constants.KEY_OCCUPATION));
+        }
     }
 
     @Override
@@ -90,8 +96,9 @@ public class FormActivity extends AppCompatActivity {
         nameField.setText("");
         emailField.setText("");
         usernameField.setText("");
+        occupationField.setText("");
         dateField.setText(getResources().getString(R.string.date_of_birth));
-        datePicker.updateDate(today.YEAR, today.MONTH, today.DAY_OF_MONTH);
+        datePicker.updateDate(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
         Log.d(TAG,"onResume invoked");
     }
 
@@ -109,6 +116,7 @@ public class FormActivity extends AppCompatActivity {
         outState.putString(Constants.KEY_NAME, nameField.getText().toString());
         outState.putString(Constants.KEY_EMAIL, emailField.getText().toString());
         outState.putString(Constants.KEY_USERNAME, usernameField.getText().toString());
+        outState.putString(Constants.KEY_OCCUPATION, occupationField.getText().toString());
         outState.putString(Constants.KEY_DOB_STRING, dateField.getText().toString());
     }
 
@@ -140,7 +148,7 @@ public class FormActivity extends AppCompatActivity {
 
     public Date dateValidation(String dateString) throws ParseException {
         Date date = null;
-        if (!dateField.equals("")) {
+        if (!dateString.equals("")) {
             Calendar birthday = Calendar.getInstance();
             date = new SimpleDateFormat("dd - MM - yyyy").parse(dateString);
             birthday.setTime(date);
@@ -159,20 +167,25 @@ public class FormActivity extends AppCompatActivity {
     }
 
     public void submitForm(View view) throws ParseException {
+        // NAME VALIDATION
         String name = nameField.getText().toString();
         if (name.equals("")) { nameField.setError(getString(R.string.error_field_required)); }
-        String email = emailField.getText().toString();
         // EMAIL VALIDATION
+        String email = emailField.getText().toString();
         if (email.equals("")) { // HASN'T BEEN ENTERED
             emailField.setError(getString(R.string.error_field_required));
         } else if (!emailValidation(emailField)) { // EMAIL FIELD IS NOT EMPTY, BUT INVALID EMAIL
             emailField.setError(getString(R.string.check_email));
         }
+        // USERNAME VALIDATION
         String username = usernameField.getText().toString();
         if (username.equals("")) { usernameField.setError(getString(R.string.error_field_required)); }
+        // OCCUPATION VALIDATION
+        String occupation = occupationField.getText().toString();
+        if(occupation.equals("")) { occupationField.setError(getString(R.string.error_field_required)); }
+        // DATE OF BIRTH VALIDATION
         String dateString = dateField.getText().toString();
         Date date;
-        // DATE OF BIRTH VALIDATION
         if (dateString.equals("")) { // DATE HASN'T BEEN ENTERED
             dateField.setError(getResources().getString(R.string.error_field_required));
             date = null;
@@ -184,6 +197,7 @@ public class FormActivity extends AppCompatActivity {
         if ((nameField.getError() == null) &&
                 (emailField.getError() == null) &&
                 (usernameField.getError() == null) &&
+                (occupationField.getError() == null) &&
                 (dateField.getError() == null)) {
             Intent intent = new Intent(FormActivity.this, FormSuccessActivity.class);
             intent.setAction(Intent.ACTION_VIEW);
@@ -192,6 +206,7 @@ public class FormActivity extends AppCompatActivity {
             bundle.putString(Constants.KEY_NAME, name);
             bundle.putString(Constants.KEY_EMAIL, email);
             bundle.putString(Constants.KEY_USERNAME, username);
+            bundle.putString(Constants.KEY_OCCUPATION, occupation);
             if (date != null) {
                 bundle.putSerializable(Constants.KEY_DOB, date);
                 bundle.putString(Constants.KEY_DOB_STRING, dateString);
