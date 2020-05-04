@@ -1,5 +1,6 @@
 package com.example.lyaho340hw1;
 
+import android.app.Activity;
 import android.os.RemoteException;
 
 import androidx.test.espresso.NoMatchingViewException;
@@ -7,8 +8,6 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.uiautomator.UiDevice;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,7 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class FormActivityTest {
 
     @Rule
-    public ActivityScenarioRule<FormActivity> activityTestRule
+    public ActivityScenarioRule<FormActivity> activityScenarioRule
             = new ActivityScenarioRule<>(FormActivity.class);
 
     @Test
@@ -117,7 +116,8 @@ public class FormActivityTest {
     @Test
     public void rotationSavesInformation() throws RemoteException {
         // Device for screen rotation
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        //UiDevice device = UiDevice.getInstance(getInstrumentation());
+        Activity activity = TestUtils.getActivity();
         try {
             // SET VALUES
             onView(withId(R.id.editText_name)).perform(click()).perform(typeText("testname"));
@@ -127,14 +127,14 @@ public class FormActivityTest {
                     .perform(PickerActions.setDate(2010, 5, 7));
             onView(withId(R.id.button_date)).perform(click());
             // ROTATE
-            device.setOrientationLeft();
+            TestUtils.rotateScreen(activity);
             // CHECK VALUES
             onView(withId(R.id.editText_name)).check(matches(withText("testname")));
             onView(withId(R.id.editText_email)).check(matches(withText("unicorn@unicorn.com")));
             onView(withId(R.id.editText_username)).check(matches(withText("testusername")));
             onView(withId(R.id.editText_date)).check(matches(withText("07 - 05 - 2010")));
             // ROTATE
-            device.setOrientationNatural();
+            TestUtils.rotateScreen(activity);
         } catch (NoMatchingViewException e) {
             // SET VALUES
             onView(withId(R.id.editText_name)).perform(click()).perform(typeText("testname"));
@@ -144,14 +144,16 @@ public class FormActivityTest {
                     .perform(PickerActions.setDate(2010, 5, 7));
             onView(withId(R.id.button_date)).perform(click());
             // ROTATE
-            device.setOrientationLeft();
+            TestUtils.rotateScreen(activity);
             // CHECK VALUES
             onView(withId(R.id.editText_name)).check(matches(withText("testname")));
             onView(withId(R.id.editText_email)).check(matches(withText("unicorn@unicorn.com")));
             onView(withId(R.id.editText_username)).check(matches(withText("testusername")));
             onView(withId(R.id.editText_date)).check(matches(withText("07 - 05 - 2010")));
             // ROTATE BACK
-            device.setOrientationNatural();
+            TestUtils.rotateScreen(activity);
         }
     }
+
+
 }
