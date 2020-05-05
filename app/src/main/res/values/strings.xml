@@ -22,6 +22,8 @@
     <string name="submit">SUBMIT</string>
 
     <string name="thanks_signup">Thanks for Signing Up</string>
+    <string name="generic_avatar">generic avatar for profile picture</string>
+
     <string name="error_field_required">required field</string>
     <string name="check_age">must be 18 years or older</string>
     <string name="check_email">must enter valid email address</string>
@@ -29,7 +31,12 @@
     // FORM VALIDATION STRINGS
     <string name="name_digits">abcdefghijklmnopqrstuvwxyz-\' ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="email_username_digits">"abcdefghijklmnopqrstuvwkyzABCDEFGHIJKLMNOPQRSTUVWXYZ@-_.1234567890"</string>
-    <string name="generic_avatar">generic avatar for profile picture</string>
+    <string name="name_display">displays user\'s name</string>
+    <string name="age_display">displays user\'s age</string>
+    <string name="bio_display">displays user\'s bio</string>
+    <string name="username_display">displays user\'s username</string>
+    <string name="occupation_display">displays user\'s occupation</string>
+    <string name="scrollview_success">scrollview for the success activity</string>
 
 
 </resources>

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -17,8 +15,8 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -47,13 +45,20 @@ public class FormSuccessActivityTest {
 
     @Test
     public void loadsViews() {
-        // Activity activity = TestUtils.getActivity();
-        // activity.recreate();
-        ActivityScenario scenario = activityScenarioRule.getScenario();
-        scenario.moveToState(Lifecycle.State.RESUMED);
-        scenario.recreate();
-        onView(withId(R.id.confirmation))
-                .check(matches(withText("Thanks for Signing Up Unknown")));
+        onView(withId(R.id.form_scroll_view))
+                .check(matches(withContentDescription("scrollview for the success activity")));
+        onView(withId(R.id.generic_avatar))
+                .check(matches(withContentDescription("generic avatar for profile picture")));
+        onView(withId(R.id.textView_username))
+                .check(matches(withContentDescription("displays user\'s username")));
+        onView(withId(R.id.textView_name))
+                .check(matches(withContentDescription("displays user's name")));
+        onView(withId(R.id.textView_age))
+                .check(matches(withContentDescription("displays user's date of birth")));
+        onView(withId(R.id.textView_bio))
+                .check(matches(withContentDescription("displays user's bio")));
+        onView(withId(R.id.textView_occupation))
+                .check(matches(withContentDescription("displays user\'s occupation")));
     }
 
     @Test
@@ -61,22 +66,17 @@ public class FormSuccessActivityTest {
         Activity activity = TestUtils.getActivity();
 
         try {
-            // I can't figure out why the activity is null! getActivity() works in FormActivityTest.java
-            // ROTATE
-            //TestUtils.rotateScreen(activity);
-            // CHECK VALUES
-            onView(withId(R.id.confirmation))
-                    .check(matches(withText("Thanks for Signing Up Unknown")));
-            // ROTATE
-            //TestUtils.rotateScreen(activity);
+            // don't currently have any state to save
+            // rotate
+            onView(withId(R.id.generic_avatar))
+                    .check(matches(withContentDescription("generic avatar for profile picture")));
+            // rotate back
         } catch (NoMatchingViewException e) {
-            // ROTATE
-            //TestUtils.rotateScreen(activity);
-            // CHECK VALUES
-            onView(withId(R.id.confirmation))
-                    .check(matches(withText("Thanks for Signing Up testname")));
-            // ROTATE
-            //TestUtils.rotateScreen(activity);
+            // don't currently have any state to save
+            // rotate
+            onView(withId(R.id.generic_avatar))
+                    .check(matches(withContentDescription("generic avatar for profile picture")));
+            // rotate back
         }
     }
 
