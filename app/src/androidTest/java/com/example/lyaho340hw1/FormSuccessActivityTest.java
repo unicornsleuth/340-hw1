@@ -45,8 +45,6 @@ public class FormSuccessActivityTest {
 
     @Test
     public void loadsViews() {
-        onView(withId(R.id.form_scroll_view))
-                .check(matches(withContentDescription("scrollview for the success activity")));
         onView(withId(R.id.generic_avatar))
                 .check(matches(withContentDescription("generic avatar for profile picture")));
         onView(withId(R.id.textView_username))
@@ -54,7 +52,7 @@ public class FormSuccessActivityTest {
         onView(withId(R.id.textView_name))
                 .check(matches(withContentDescription("displays user's name")));
         onView(withId(R.id.textView_age))
-                .check(matches(withContentDescription("displays user's date of birth")));
+                .check(matches(withContentDescription("displays user's age")));
         onView(withId(R.id.textView_bio))
                 .check(matches(withContentDescription("displays user's bio")));
         onView(withId(R.id.textView_occupation))
