@@ -68,12 +68,32 @@ public class FormSuccessActivityTest {
             // rotate
             onView(withId(R.id.generic_avatar))
                     .check(matches(withContentDescription("generic avatar for profile picture")));
+            onView(withId(R.id.textView_username))
+                    .check(matches(withContentDescription("displays user\'s username")));
+            onView(withId(R.id.textView_name))
+                    .check(matches(withContentDescription("displays user's name")));
+            onView(withId(R.id.textView_age))
+                    .check(matches(withContentDescription("displays user's age")));
+            onView(withId(R.id.textView_bio))
+                    .check(matches(withContentDescription("displays user's bio")));
+            onView(withId(R.id.textView_occupation))
+                    .check(matches(withContentDescription("displays user\'s occupation")));
             // rotate back
         } catch (NoMatchingViewException e) {
             // don't currently have any state to save
             // rotate
             onView(withId(R.id.generic_avatar))
                     .check(matches(withContentDescription("generic avatar for profile picture")));
+            onView(withId(R.id.textView_username))
+                    .check(matches(withContentDescription("displays user\'s username")));
+            onView(withId(R.id.textView_name))
+                    .check(matches(withContentDescription("displays user's name")));
+            onView(withId(R.id.textView_age))
+                    .check(matches(withContentDescription("displays user's age")));
+            onView(withId(R.id.textView_bio))
+                    .check(matches(withContentDescription("displays user's bio")));
+            onView(withId(R.id.textView_occupation))
+                    .check(matches(withContentDescription("displays user\'s occupation")));
             // rotate back
         }
     }
