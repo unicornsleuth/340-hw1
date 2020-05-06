@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -23,7 +22,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 public class TestUtils {
 
     // Kyle's rotation method
-    public static void rotateScreen(@NonNull Activity activity) {
+    public static void rotateScreen(Activity activity) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final int orientation = getInstrumentation()
                 .getTargetContext()
