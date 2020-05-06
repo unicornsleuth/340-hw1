@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToFormActivity(View view) {
         Intent intent = new Intent(MainActivity.this, FormActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
         startActivity(intent);
     }
 }

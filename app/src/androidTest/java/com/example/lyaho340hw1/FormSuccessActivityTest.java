@@ -42,7 +42,6 @@ public class FormSuccessActivityTest {
         bundle.putString(Constants.KEY_BIO, "testbio");
         bundle.putSerializable(Constants.KEY_DOB, new Date());
         intent.putExtra(Constants.KEY_USER_DATA, bundle);
-        //activity.setIntent(intent);
         activityTestRule.launchActivity(intent);
     }
 
