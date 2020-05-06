@@ -111,11 +111,11 @@ public class FormSuccessActivity extends AppCompatActivity {
         super.onStop();
         Log.d(TAG,"onStop invoked");
     }
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG,"onRestart invoked");
-    }
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        Log.d(TAG,"onRestart invoked");
+//    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
