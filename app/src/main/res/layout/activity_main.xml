@@ -1,44 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_fragment_container"
+    android:orientation="horizontal"
+    tools:context=".MainActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/text_padding"
-        android:paddingTop="@dimen/text_padding"
-        android:text="@string/my_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/text_padding"
-        android:text="@string/date_created"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-    <ImageView
-        android:id="@+id/hotdog_cat"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/hotdogcat"
-        android:contentDescription="@string/is_cat_with_hotdog"
-        android:paddingVertical="@dimen/temp_padding"
-        />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/form_button"
-        android:layout_height="@dimen/form_button_height"
-        android:layout_width="@dimen/form_button_width"
-        android:text="@string/go_to_form_button"
-        android:layout_gravity="center_horizontal"
-        android:onClick="goToFormActivity"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <fragment android:name="com.example.lyaho340hw1.ProfileFragment"
+            android:id="@+id/profile_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</CoordinatorLayout>

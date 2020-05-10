@@ -16,11 +16,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest  {
+public class PracticeActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule
-            = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<PracticeActivity> activityTestRule
+            = new ActivityTestRule<>(PracticeActivity.class);
 
 
     @Test

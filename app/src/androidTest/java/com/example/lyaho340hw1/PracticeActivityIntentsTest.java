@@ -15,7 +15,7 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-public class MainActivityIntentsTest {
+public class PracticeActivityIntentsTest {
 
     @Rule
     public IntentsTestRule<FormActivity> intentsTestRule =

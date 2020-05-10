@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".FormSuccessActivity">
+
+        <ImageView
+            android:id="@+id/generic_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/generic_avatar"
+            android:contentDescription="@string/generic_avatar"
+            />
+        <TextView
+            android:id="@+id/textView_username"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/text_padding"
+            android:layout_below="@id/generic_avatar"
+            android:text="placeholder username"
+            android:contentDescription="@string/username_display"
+            />
+        <LinearLayout
+            android:id="@+id/linear_name_age"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_below="@id/textView_username">
+            <TextView
+                android:id="@+id/textView_name"
+                android:layout_weight="7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/text_padding"
+                android:text="placeholder name"
+                android:contentDescription="@string/name_display"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <TextView
+                android:id="@+id/textView_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="end"
+                android:paddingHorizontal="@dimen/text_padding"
+                android:contentDescription="@string/age_display"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textView_occupation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_below="@id/linear_name_age"
+            android:layout_gravity="right"
+            android:textSize="@dimen/font_size_std"
+            android:paddingHorizontal="@dimen/text_padding"
+            android:text="placeholder occupation"
+            android:contentDescription="@string/occupation_display"/>
+        <TextView
+            android:id="@+id/textView_bio"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_occupation"
+            android:textSize="@dimen/font_size_std"
+            android:layout_gravity="center"
+            android:paddingHorizontal="@dimen/text_padding"
+            android:text="placeholder bio"
+            android:contentDescription="@string/bio_display" />
+    </RelativeLayout>
