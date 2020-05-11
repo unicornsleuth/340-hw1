@@ -49,7 +49,7 @@ public class FormActivityIntentsTest {
             //Intents.init();
             onView(withId(R.id.button_submit_form)).perform(scrollTo(), click());
             intended(AllOf.allOf(
-                    hasComponent(FormSuccessActivity.class.getName()),
+                    hasComponent(MainActivity.class.getName()),
                     hasAction(Intent.ACTION_VIEW),
                     hasExtraWithKey(Constants.KEY_USER_DATA)));
 
