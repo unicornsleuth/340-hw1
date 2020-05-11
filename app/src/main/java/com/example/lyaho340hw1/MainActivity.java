@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
