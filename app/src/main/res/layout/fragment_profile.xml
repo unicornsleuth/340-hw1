@@ -47,7 +47,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="end"
                 android:paddingHorizontal="@dimen/text_padding"
-                android:text="0"
+                android:text="-1"
                 android:contentDescription="@string/age_display"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
