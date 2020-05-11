@@ -29,30 +29,33 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout -> change this to new XML file for fragment!
-        return inflater.inflate(R.layout.fragment_profile, container, false);
-    }
+        // Inflate the layout
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Activity rootView = getActivity();
         usernameDisplay = rootView.findViewById(R.id.textView_username);
         nameDisplay = rootView.findViewById(R.id.textView_name);
         ageDisplay = rootView.findViewById(R.id.textView_age);
         bioDisplay = rootView.findViewById(R.id.textView_bio);
         occupationDisplay = rootView.findViewById(R.id.textView_occupation);
 
-        Intent incomingIntent = rootView.getIntent();
-        Bundle incomingState = incomingIntent.getExtras();
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Activity rootView = getActivity();
+
+         Intent incomingIntent = rootView.getIntent();
+         Bundle incomingState = incomingIntent.getExtras();
 
         if (incomingState != null) {
             Bundle incomingExtras = incomingState.getBundle(Constants.KEY_USER_DATA);
 
             if (incomingExtras != null) {
-                if (incomingExtras.containsKey(Constants.KEY_USERNAME)) {
-                    usernameDisplay.setText(incomingExtras.getString(Constants.KEY_USERNAME));
-                }
+//                if (incomingExtras.containsKey(Constants.KEY_USERNAME)) {
+//                    usernameDisplay.setText(incomingExtras.getString(Constants.KEY_USERNAME));
+//                }
                 if (incomingExtras.containsKey(Constants.KEY_NAME)) {
                     nameDisplay.setText(incomingExtras.getString(Constants.KEY_NAME));
                 }
@@ -69,9 +72,9 @@ public class ProfileFragment extends Fragment {
                 if (incomingExtras.containsKey(Constants.KEY_BIO)) {
                     bioDisplay.setText(incomingExtras.getString(Constants.KEY_BIO));
                 }
-                if (incomingExtras.containsKey(Constants.KEY_OCCUPATION)) {
-                    occupationDisplay.setText(incomingExtras.getString(Constants.KEY_OCCUPATION));
-                }
+//                if (incomingExtras.containsKey(Constants.KEY_OCCUPATION)) {
+//                    occupationDisplay.setText(incomingExtras.getString(Constants.KEY_OCCUPATION));
+//                }
             }
         }
         Log.d(TAG, "onCreate invoked");
@@ -82,11 +85,11 @@ public class ProfileFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         Log.d(TAG, "onSaveInstanceState invoked");
-        outState.putString(Constants.KEY_USERNAME, usernameDisplay.getText().toString());
+        // outState.putString(Constants.KEY_USERNAME, usernameDisplay.getText().toString());
         outState.putString(Constants.KEY_NAME, nameDisplay.getText().toString());
         outState.putString(Constants.KEY_DOB_STRING, ageDisplay.getText().toString());
         outState.putString(Constants.KEY_BIO, bioDisplay.getText().toString());
-        outState.putString(Constants.KEY_OCCUPATION, occupationDisplay.getText().toString());
+        // outState.putString(Constants.KEY_OCCUPATION, occupationDisplay.getText().toString());
 
     }
 }

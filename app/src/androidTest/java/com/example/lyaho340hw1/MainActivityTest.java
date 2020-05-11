@@ -1,5 +1,6 @@
 package com.example.lyaho340hw1;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -86,6 +88,48 @@ public class MainActivityTest {
 //        } catch (NoMatchingViewException e) {
 //            Log.d("MainActivityTest", "swipe failed");
 //        }
+    }
+
+    @Test
+    public void rotationSavesInformation() {
+        Activity activity = activityTestRule.getActivity();
+
+        try {
+            // don't currently have any state to save
+            TestUtils.rotateScreen(activity);
+            // rotate
+//            onView(withId(R.id.textView_username))
+//                    .check(matches(withText("testusername")));
+            onView(withId(R.id.textView_name))
+                    .check(matches(withText("testname")));
+            onView(withId(R.id.textView_age))
+                    .check(matches(withText("0")));
+            onView(withId(R.id.textView_bio))
+                    .check(matches(withText("testbio")));
+//            onView(withId(R.id.textView_occupation))
+//                    .check(matches(withText("testoccupation")));
+            // rotate back
+            TestUtils.rotateScreen(activity);
+        } catch (NullPointerException e) {
+            // don't currently have any state to save
+            // rotate
+            if (activity != null) TestUtils.rotateScreen(activity);
+            // check data
+            onView(withId(R.id.generic_avatar))
+                    .check(matches(withContentDescription("generic avatar for profile picture")));
+//            onView(withId(R.id.textView_username))
+//                    .check(matches(withText("testusername")));
+            onView(withId(R.id.textView_name))
+                    .check(matches(withText("testname")));
+            onView(withId(R.id.textView_age))
+                    .check(matches(withText("0")));
+            onView(withId(R.id.textView_bio))
+                    .check(matches(withText("testbio")));
+//            onView(withId(R.id.textView_occupation))
+//                    .check(matches(withText("testoccupation")));
+            // rotate back
+            if (activity != null) TestUtils.rotateScreen(activity);
+        }
     }
 
 }
