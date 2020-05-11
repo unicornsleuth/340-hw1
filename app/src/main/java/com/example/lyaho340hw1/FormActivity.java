@@ -211,7 +211,7 @@ public class FormActivity extends AppCompatActivity {
                 (occupationField.getError() == null) &&
                 (bioField.getError() == null) &&
                 (dateField.getError() == null)) {
-            Intent intent = new Intent(FormActivity.this, FormSuccessActivity.class);
+            Intent intent = new Intent(FormActivity.this, MainActivity.class);
             intent.setAction(Intent.ACTION_VIEW);
 
             Bundle bundle = new Bundle();

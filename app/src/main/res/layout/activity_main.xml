@@ -27,11 +27,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <fragment android:name="com.example.lyaho340hw1.ProfileFragment"
-            android:id="@+id/profile_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2

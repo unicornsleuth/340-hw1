@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // This Activity already has an action bar supplied by the window decor
         setSupportActionBar(toolbar);
 
         // Setting ViewPager for each Tabs
@@ -84,7 +83,17 @@ public class MainActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            return null;
+            switch(position) {
+                case 0:
+                    return new ProfileFragment();
+                case 1:
+                    return new MatchesFragment();
+                case 2:
+                    return new SettingsFragment();
+                default:
+                    return null;
+            }
+
         }
 
 
