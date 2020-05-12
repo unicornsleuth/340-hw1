@@ -16,7 +16,6 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -45,8 +44,8 @@ public class MainActivityNoSetupTest {
         onView(withId(R.id.textView_age))
                 .check(matches(withText("-1")));
         onView(withId(R.id.textView_bio))
-                .check(matches(withContentDescription("placeholder bio")));
+                .check(matches(withText("placeholder bio")));
         onView(withId(R.id.textView_occupation))
-                .check(matches(withContentDescription("placeholder occupation")));
+                .check(matches(withText("placeholder occupation")));
     }
 }
