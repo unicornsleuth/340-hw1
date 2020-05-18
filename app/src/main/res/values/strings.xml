@@ -52,5 +52,8 @@
     <string name="match_8">Peperomia</string>
     <string name="match_9">Syngonium</string>
     <string name="match_10">Aglaonema</string>
+    <string name="match_picture">profile picture of match</string>
+    <string name="not_liked">not liked</string>
+    <string name="liked">liked</string>
 
 </resources>
