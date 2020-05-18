@@ -17,12 +17,14 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.swipeLeft;
-import static androidx.test.espresso.action.ViewActions.swipeRight;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -63,25 +65,39 @@ public class MainActivityTest {
     }
 
     @Test
-    public void swipes() {
+    public void tabsLoadViews() {
 //       try {
-            // Swipe to Matches - NOT WORKING
-            onView(withId(R.id.generic_avatar)).perform(swipeLeft());
+            // Swipe to Matches
+            // onView(withId(R.id.generic_avatar)).perform(swipeLeft());
 
             // Click on Matches Tab
-            //onView(withText(R.string.tab_name_matches)).perform(click());
+            onView(withText(R.string.tab_name_matches)).perform(click());
 
             // Check Matches
-            onView(withId(R.id.hotdog_cat_matches))
-                    .check(matches(withContentDescription(R.string.is_cat_with_hotdog)));
+        onView(allOf(withId(R.id.match_picture), isCompletelyDisplayed()))
+                .check(matches(withContentDescription(R.string.match_picture)));
+        onView(allOf(withId(R.id.match_name), isCompletelyDisplayed()))
+                .check(matches(withContentDescription(R.string.match_name)));
+        onView(allOf(withId(R.id.like_button), isCompletelyDisplayed()))
+                .check(matches(anyOf(withContentDescription(R.string.liked), withContentDescription(R.string.not_liked))));
+
             // Swipe to Settings
-            onView(withId(R.id.hotdog_cat_matches)).perform(swipeLeft());
+            // onView(withId(R.id.hotdog_cat_matches)).perform(swipeLeft());
+
+            // Click on Settings tab
+        onView(withText(R.string.tab_name_settings)).perform(click());
+
             // Check Settings
             onView(withId(R.id.hotdog_cat_settings))
                     .check(matches(withContentDescription(R.string.is_cat_with_hotdog)));
+
             // Swipe back to Profile
-            onView(withId(R.id.hotdog_cat_settings)).perform(swipeRight());
-            onView(withId(R.id.hotdog_cat_matches)).perform(swipeRight());
+//            onView(withId(R.id.hotdog_cat_settings)).perform(swipeRight());
+//            onView(withId(R.id.hotdog_cat_matches)).perform(swipeRight());
+
+        // Click on Profile tab
+        onView(withText(R.string.tab_name_profile)).perform(click());
+
             // Check Profile Image
             onView(withId(R.id.generic_avatar))
                     .check(matches(withContentDescription("generic avatar for profile picture")));

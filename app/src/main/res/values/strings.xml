@@ -55,5 +55,6 @@
     <string name="match_picture">profile picture of match</string>
     <string name="not_liked">not liked</string>
     <string name="liked">liked</string>
+    <string name="match_name">name of match</string>
 
 </resources>
