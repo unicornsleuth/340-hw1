@@ -1,6 +1,7 @@
 package com.example.lyaho340hw1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.view.View;
@@ -75,6 +76,9 @@ public class TestUtils {
         return currentActivity[0];
     }
 
-
+    private String getString(int id) {
+        Context targetContext = getInstrumentation().getTargetContext();
+        return targetContext.getResources().getString(id);
+    }
 
 }

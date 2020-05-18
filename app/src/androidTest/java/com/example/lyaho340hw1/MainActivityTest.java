@@ -63,7 +63,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void swipes() throws InterruptedException {
+    public void swipes() {
 //       try {
             // Swipe to Matches - NOT WORKING
             onView(withId(R.id.generic_avatar)).perform(swipeLeft());

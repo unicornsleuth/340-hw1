@@ -41,5 +41,16 @@
     <string name="tab_name_matches">Matches</string>
     <string name="tab_name_profile">Profile</string>
 
+    // MATCH NAMES
+    <string name="match_1">Sansevieiria</string>
+    <string name="match_2">Pilea</string>
+    <string name="match_3">Senecio</string>
+    <string name="match_4">Philodendron</string>
+    <string name="match_5">Oxalis</string>
+    <string name="match_6">Ludisia</string>
+    <string name="match_7">Asplenium</string>
+    <string name="match_8">Peperomia</string>
+    <string name="match_9">Syngonium</string>
+    <string name="match_10">Aglaonema</string>
 
 </resources>
