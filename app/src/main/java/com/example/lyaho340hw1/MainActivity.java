@@ -14,14 +14,18 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private String[] tabNames;
     private static final String TAG = MainActivity.class.getSimpleName();
+    public User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,26 +45,30 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         // Set Tabs inside Toolbar
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
-        // Doesn't work with ViewPager2!
-//        tabs.setupWithViewPager(viewPager);
 
         new TabLayoutMediator(tabs, viewPager, (tab, position) -> tab.setText(tabNames[position])
         ).attach();
 
-
-        // Adding Tabs to Main screen
-//        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
-//        tabs.addTab(tabs.newTab().setText(R.string.tab_name_profile));
-//        tabs.addTab(tabs.newTab().setText(R.string.tab_name_matches));
-//        tabs.addTab(tabs.newTab().setText(R.string.tab_name_settings));
-
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        ProfileFragment fragment = new ProfileFragment();
-//        fragmentTransaction.add(R.id.main_fragment_container, fragment);
-//        fragmentTransaction.commit();
+        // loadSignInState();
 
         Log.d(TAG,"onCreate invoked");
+    }
+
+    // Loads info from Google Sign In to User object
+    private void loadSignInState() {
+        currentUser = new User();
+
+        FirebaseAuth firebaseAuth = FirebaseAuthGetter.getFirebaseAuth();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            //Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+            //startActivity(intent);
+            //finish();
+        } else {
+            currentUser.setEmail(Objects.requireNonNull(firebaseUser.getEmail()));
+            currentUser.setName(Objects.requireNonNull(firebaseUser.getDisplayName()));
+            currentUser.setPhotoURL(Objects.requireNonNull(firebaseUser.getPhotoUrl()).toString());
+        }
     }
 
     // Add Fragments to Tabs
