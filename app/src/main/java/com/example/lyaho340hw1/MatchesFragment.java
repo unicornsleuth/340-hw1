@@ -1,7 +1,6 @@
 package com.example.lyaho340hw1;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,24 +22,28 @@ public class MatchesFragment extends Fragment {
 
     private MatchViewModel vm;
     private ArrayList<Match> matchList;
+    private static final String TAG = MatchesFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-
         vm = new MatchViewModel();
-        matchList = new ArrayList<Match>();
-        vm.getMatches((ArrayList<Match> matches) -> {
-            matchList.addAll(matches);
-        });
-        // check - this is null? - I think I fixed this. WHY NO IMAGE? CHECK
-        adapter.setMatchArray(matchList);
+        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(), vm);
+        recyclerView.setAdapter(adapter);
+        //recyclerView.setHasFixedSize(true);
 
+        //
+//        matchList = new ArrayList<>();
+//        vm.getMatches((ArrayList<Match> matches) -> {
+//            Log.e("matches.get(0).getImageUrl()", matches.get(0).getImageUrl());
+//            matchList.addAll(matches);
+//        });
+        // check - this is null
+        // Log.e("matchList.get(0).getImageUrl()", matchList.get(0).getImageUrl());
+        //adapter.setMatchArray(matchList);
+        Log.d(TAG, "onCreateView invoked");
         return recyclerView;
     }
 
@@ -73,46 +76,33 @@ public class MatchesFragment extends Fragment {
         // Set numbers of List in RecyclerView.
         // I think this should be something like a getLength() from firebase?
         //private static final int LENGTH = 6;
-        private final int[] matchPicturesId;
-        private final String[] matchNames;
+        private MatchViewModel vm;
         private ArrayList<Match> matchList;
 
-        public ContentAdapter(Context context) {
+        public ContentAdapter(Context context, MatchViewModel viewModel) {
+            this.vm = viewModel;
             matchList = new ArrayList<>();
-            Resources resources = context.getResources();
-            matchPicturesId = new int[]{
-                    R.drawable.sansevieiria,
-                    R.drawable.pilea,
-                    R.drawable.senecio,
-                    R.drawable.philodendron,
-                    R.drawable.oxalis,
-                    R.drawable.ludisia,
-                    R.drawable.asplenium,
-                    R.drawable.peperomia,
-                    R.drawable.syngonium,
-                    R.drawable.aglaonema
-            };
-            matchNames = new String[] {
-                    resources.getString(R.string.match_1),
-                    resources.getString(R.string.match_2),
-                    resources.getString(R.string.match_3),
-                    resources.getString(R.string.match_4),
-                    resources.getString(R.string.match_5),
-                    resources.getString(R.string.match_6),
-                    resources.getString(R.string.match_7),
-                    resources.getString(R.string.match_8),
-                    resources.getString(R.string.match_9),
-                    resources.getString(R.string.match_10)
-            };
+            context.getResources();
+            vm.getMatches((ArrayList<Match> matches) -> {
+                // Log.e("onCreateViewHolder: matches.get(0).getImageUrl()", matches.get(0).getImageUrl());
+                for (Match match : matches) {
+                    if (!matchList.contains(match)) {
+                        matchList.add(match);
+                    }
+                }
+                notifyDataSetChanged();
+            });
         }
 
         public void setMatchArray(ArrayList<Match> matches) {
-                matchList.addAll(matches);
+            matchList.clear();
+            matchList.addAll(matches);
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+            ViewHolder viewHolder = new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+            return viewHolder;
         }
 
         @Override
