@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] tabNames;
     private static final String TAG = MainActivity.class.getSimpleName();
-    public User currentUser;
+    public Match currentMatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Loads info from Google Sign In to User object
     private void loadSignInState() {
-        currentUser = new User();
+        currentMatch = new Match();
 
         FirebaseAuth firebaseAuth = FirebaseAuthGetter.getFirebaseAuth();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
             //startActivity(intent);
             //finish();
         } else {
-            currentUser.setEmail(Objects.requireNonNull(firebaseUser.getEmail()));
-            currentUser.setName(Objects.requireNonNull(firebaseUser.getDisplayName()));
-            currentUser.setPhotoURL(Objects.requireNonNull(firebaseUser.getPhotoUrl()).toString());
+            currentMatch.setEmail(Objects.requireNonNull(firebaseUser.getEmail()));
+            currentMatch.setName(Objects.requireNonNull(firebaseUser.getDisplayName()));
+            currentMatch.setImageUrl(Objects.requireNonNull(firebaseUser.getPhotoUrl()).toString());
         }
     }
 

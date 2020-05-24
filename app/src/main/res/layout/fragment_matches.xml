@@ -1,16 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginBottom="@dimen/recycler_view_padding"
+    android:layout_marginHorizontal="@dimen/recycler_view_padding"
+    android:foreground="?attr/selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/hotdog_cat_matches"
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/hotdogcat"
-        android:contentDescription="@string/is_cat_with_hotdog"
-        />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/match_picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/match_picture"
+            android:layout_margin="@dimen/match_image_margin"
+            />
+
+        <TextView
+            android:id="@+id/match_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/like_button_margin"
+            android:layout_alignLeft="@id/match_picture"
+            android:layout_alignBottom="@id/match_picture"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:contentDescription="@string/match_name"
+            android:textSize="@dimen/font_size_big"
+            android:padding="@dimen/match_name_padding"
+            />
+
+        <ImageButton
+            android:id="@+id/like_button"
+            android:layout_width="@dimen/like_button_width"
+            android:layout_height="@dimen/like_button_width"
+            android:layout_marginEnd="@dimen/like_button_margin"
+            android:layout_marginBottom="@dimen/like_button_margin"
+            android:layout_alignBottom="@id/match_picture"
+            android:layout_alignEnd="@id/match_picture"
+            tools:clickable="true"
+            android:contentDescription="@string/not_liked"
+            app:srcCompat="@drawable/ic_favorite_border"
+            style="?android:attr/borderlessButtonStyle"
+            />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

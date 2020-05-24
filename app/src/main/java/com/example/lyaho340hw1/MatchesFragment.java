@@ -3,6 +3,7 @@ package com.example.lyaho340hw1;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,14 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
 public class MatchesFragment extends Fragment {
 
+    private MatchViewModel vm;
+    private ArrayList<Match> matchList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,7 +32,22 @@ public class MatchesFragment extends Fragment {
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+
+        vm = new MatchViewModel();
+        matchList = new ArrayList<Match>();
+        vm.getMatches((ArrayList<Match> matches) -> {
+            matchList.addAll(matches);
+        });
+        // check - this is null? - I think I fixed this. WHY NO IMAGE? CHECK
+        adapter.setMatchArray(matchList);
+
         return recyclerView;
+    }
+
+    @Override
+    public void onPause() {
+        vm.clear();
+        super.onPause();
     }
 
     // this is for what happens in each "match"
@@ -37,7 +59,7 @@ public class MatchesFragment extends Fragment {
         public ViewGroup parent;
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.fragment_match, parent, false));
+            super(inflater.inflate(R.layout.fragment_matches, parent, false));
             this.parent = parent;
             image = (ImageView) itemView.findViewById(R.id.match_picture);
             likeButton = (ImageButton) itemView.findViewById(R.id.like_button);
@@ -49,11 +71,14 @@ public class MatchesFragment extends Fragment {
 
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of List in RecyclerView.
-        private static final int LENGTH = 10;
+        // I think this should be something like a getLength() from firebase?
+        //private static final int LENGTH = 6;
         private final int[] matchPicturesId;
         private final String[] matchNames;
+        private ArrayList<Match> matchList;
 
         public ContentAdapter(Context context) {
+            matchList = new ArrayList<>();
             Resources resources = context.getResources();
             matchPicturesId = new int[]{
                     R.drawable.sansevieiria,
@@ -81,6 +106,10 @@ public class MatchesFragment extends Fragment {
             };
         }
 
+        public void setMatchArray(ArrayList<Match> matches) {
+                matchList.addAll(matches);
+        }
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
@@ -88,8 +117,12 @@ public class MatchesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.image.setImageResource(matchPicturesId[position % matchPicturesId.length]);
-            holder.matchName.setText(matchNames[position % matchNames.length]);
+            Log.e("onBindViewHolder; first imageUrl in matchList", matchList.get(0).getImageUrl());
+            if (matchList != null) {
+                Log.e("first imageUrl in matchList", matchList.get(0).getImageUrl());
+                Picasso.get().load(matchList.get(position % matchList.size()).getImageUrl()).into(holder.image);
+                holder.matchName.setText(matchList.get(position % matchList.size()).getName());
+            }
             holder.likeButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Context context = holder.parent.getContext();
@@ -115,7 +148,7 @@ public class MatchesFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return matchList.size();
         }
     }
 }
