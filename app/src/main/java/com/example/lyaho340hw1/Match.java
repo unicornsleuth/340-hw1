@@ -26,51 +26,31 @@ public class Match {
         liked = false;
     }
 
-    public Match(String email, String name, String username) {
-        this.email = email;
-        this.name = name;
-        this.username = username;
-    }
-
-    public Match(String email, String name, String username, String photoUrl, String bio, String occupation, int age) {
-        this(email, name, username);
-        this.imageUrl = photoUrl;
-        this.bio = bio;
-        this.occupation = occupation;
-        this.age = age;
-    }
-
     // ACCESSORS
 
-    public boolean getLiked() { return liked; }
-
-    public double getLatitude() { return latitude; }
-
-    public double getLongitude() { return longitude; }
-
-    public String getUid() { return uid; }
-
-    public String getEmail() { return email; }
+//    public String getUid() { return uid; }
+//
+//    public String getEmail() { return email; }
 
     public String getName() { return name; }
 
-    public String getUsername() { return username; }
+//    public String getUsername() { return username; }
 
     public String getImageUrl() { return imageUrl; }
 
-    public String getBio() { return bio; }
-
-    public String getOccupation() { return occupation; }
-
-    public int getAge() { return age; }
+//    public String getBio() { return bio; }
+//
+//    public String getOccupation() { return occupation; }
+//
+//    public int getAge() { return age; }
 
     // MUTATORS
 
     public void setLiked(boolean liked) { this.liked = liked; }
 
-    public void setLongitude(double longitude) { this.longitude = longitude; }
-
-    public void setLatitude(double latitude) { this.latitude = latitude; }
+//    public void setLongitude(double longitude) { this.longitude = longitude; }
+//
+//    public void setLatitude(double latitude) { this.latitude = latitude; }
 
     public void setUid(String uid) { this.uid = uid; }
 
@@ -78,14 +58,14 @@ public class Match {
 
     public void setName(String name) { this.name = name; }
 
-    public void setUsername(String username) { this.username = username; }
+//    public void setUsername(String username) { this.username = username; }
 
     public void setImageUrl(String url) { imageUrl = url; }
 
-    public void setAge(int age) { this.age = age; }
-
-    public void setBio(String bio) { this.bio = bio; }
-
-    public void setOccupation(String occupation) { this.occupation = occupation; }
+//    public void setAge(int age) { this.age = age; }
+//
+//    public void setBio(String bio) { this.bio = bio; }
+//
+//    public void setOccupation(String occupation) { this.occupation = occupation; }
 
 }

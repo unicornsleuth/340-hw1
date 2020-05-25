@@ -105,11 +105,13 @@ public class MatchesFragment extends Fragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Log.e("onBindViewHolder; first imageUrl in matchList", matchList.get(0).getImageUrl());
+            Match currentMatch;
             if (matchList != null) {
+                currentMatch = matchList.get(position % matchList.size());
                 Log.e("first imageUrl in matchList", matchList.get(0).getImageUrl());
-                Picasso.get().load(matchList.get(position % matchList.size()).getImageUrl()).into(holder.image);
-                holder.matchName.setText(matchList.get(position % matchList.size()).getName());
-            }
+                Picasso.get().load(currentMatch.getImageUrl()).into(holder.image);
+                holder.matchName.setText(currentMatch.getName());
+            } else { currentMatch = new Match(); }
             holder.likeButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Context context = holder.parent.getContext();
@@ -117,10 +119,12 @@ public class MatchesFragment extends Fragment {
                     if (holder.likeButton.getContentDescription().equals(context.getString(R.string.liked))) {
                         holder.likeButton.setImageResource(R.drawable.ic_favorite_border);
                         holder.likeButton.setContentDescription(context.getString(R.string.not_liked));
+                        currentMatch.setLiked(false);
                         text = new StringBuilder("You unliked ");
                     } else {
                         holder.likeButton.setImageResource(R.drawable.ic_favorite_fill);
                         holder.likeButton.setContentDescription(context.getString(R.string.liked));
+                        currentMatch.setLiked(true);
                         text = new StringBuilder("You liked ");
                     }
 

@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -17,13 +15,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,21 +54,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Loads info from Google Sign In to User object
-    private void loadSignInState() {
-        currentMatch = new Match();
-
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser == null) {
-            //Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-            //startActivity(intent);
-            //finish();
-        } else {
-            currentMatch.setEmail(Objects.requireNonNull(firebaseUser.getEmail()));
-            currentMatch.setName(Objects.requireNonNull(firebaseUser.getDisplayName()));
-            currentMatch.setImageUrl(Objects.requireNonNull(firebaseUser.getPhotoUrl()).toString());
-        }
-    }
+//    private void loadSignInState() {
+//        currentMatch = new Match();
+//
+//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//        if (firebaseUser == null) {
+//            //Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+//            //startActivity(intent);
+//            //finish();
+//        } else {
+//            currentMatch.setEmail(Objects.requireNonNull(firebaseUser.getEmail()));
+//            currentMatch.setName(Objects.requireNonNull(firebaseUser.getDisplayName()));
+//            currentMatch.setImageUrl(Objects.requireNonNull(firebaseUser.getPhotoUrl()).toString());
+//        }
+//    }
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager2 viewPager) {
@@ -120,38 +114,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource() {
-        if (idlingResource == null) {
-            idlingResource = new IdlingResource() {
-                @Nullable
-                private volatile ResourceCallback callback;
-                private AtomicBoolean isIdleNow = new AtomicBoolean(true);
-                @Override
-                public String getName() {
-                    return this.getClass().getName();
-                }
-
-                @Override
-                public boolean isIdleNow() {
-                    return isIdleNow.get();
-                }
-
-                @Override
-                public void registerIdleTransitionCallback(ResourceCallback callback) {
-                    this.callback = callback;
-                }
-
-                public void setIdleState(boolean isIdleNow) {
-                    this.isIdleNow.set(isIdleNow);
-                    if (isIdleNow && callback != null) {
-                        callback.onTransitionToIdle();
-                    }
-                }
-            };
-        }
-        return idlingResource;
-    }
+//    @VisibleForTesting
+//    @NonNull
+//    public IdlingResource getIdlingResource() {
+//        if (idlingResource == null) {
+//            idlingResource = new IdlingResource() {
+//                @Nullable
+//                private volatile ResourceCallback callback;
+//                private AtomicBoolean isIdleNow = new AtomicBoolean(true);
+//                @Override
+//                public String getName() {
+//                    return this.getClass().getName();
+//                }
+//
+//                @Override
+//                public boolean isIdleNow() {
+//                    return isIdleNow.get();
+//                }
+//
+//                @Override
+//                public void registerIdleTransitionCallback(ResourceCallback callback) {
+//                    this.callback = callback;
+//                }
+//
+//                public void setIdleState(boolean isIdleNow) {
+//                    this.isIdleNow.set(isIdleNow);
+//                    if (isIdleNow && callback != null) {
+//                        callback.onTransitionToIdle();
+//                    }
+//                }
+//            };
+//        }
+//        return idlingResource;
+//    }
 
 }

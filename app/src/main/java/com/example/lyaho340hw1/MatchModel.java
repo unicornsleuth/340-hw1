@@ -2,9 +2,6 @@ package com.example.lyaho340hw1;
 
 import android.annotation.SuppressLint;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -23,13 +20,6 @@ public class MatchModel {
     public MatchModel() {
         db = FirebaseFirestore.getInstance();
         listeners = new ArrayList<>();
-    }
-
-    public void getData(EventListener<DocumentSnapshot> viewModelCallback) {
-        // this is where we can construct our path
-        DocumentReference matchRef = db.collection("matches").document("-LBUnGOjj3Nr5DXhI-j_");
-        ListenerRegistration registration = matchRef.addSnapshotListener(viewModelCallback);
-        listeners.add(registration);
     }
 
     public void getData(Consumer<QuerySnapshot> dataChangedCallback, Consumer<FirebaseFirestoreException> dataErrorCallback) {
