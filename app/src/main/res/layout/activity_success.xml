@@ -2,7 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/success_scroll_view"
-    android:background="@color/profilePageBackground"
+    android:background="@color/background"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:contentDescription="@string/scrollview_success"

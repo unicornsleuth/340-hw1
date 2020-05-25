@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#176AAC</color>
+    <color name="colorPrimary">#3A95DD</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#CDDC39</color>
-    <color name="profilePageBackground">#C9E5FB</color>
+    <color name="background">#C9E5FB</color>
     <color name="white">#9AFFFFFF</color>
     <color name="black">#A0000000</color>
 </resources>

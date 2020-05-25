@@ -8,6 +8,7 @@
     <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".ActivityForm"
+        android:backgroundTint="@color/background"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -19,6 +20,8 @@
         android:paddingHorizontal="@dimen/text_padding"
         android:layout_marginTop="@dimen/text_padding"
         android:text="@string/form_instructions"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         <EditText
@@ -86,6 +89,7 @@
                 android:id="@+id/button_date"
                 android:layout_width="@dimen/form_button_width"
                 android:layout_height="@dimen/form_button_height"
+                android:backgroundTint="@color/colorAccent"
                 android:layout_toEndOf="@id/date_picker"
                 android:layout_marginTop="@dimen/temp_padding"
                 android:text="@string/select_date"
@@ -108,8 +112,11 @@
         <Button
             android:id="@+id/button_submit_form"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="@dimen/submit_button_padding"
             android:layout_marginTop="@dimen/text_padding"
             android:text="@string/submit"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:onClick="submitForm"
             android:layout_width="fill_parent">
         </Button>
