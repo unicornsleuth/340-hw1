@@ -5,4 +5,5 @@
 /src/main/java/com/example/lyaho340hw1/FormSuccessActivity.java
 /src/main/java/com/example/lyaho340hw1/FirebaseAuthGetter.java
 /src/main/java/com/example/lyaho340hw1/SignInActivity.java
+/src/androidTest/java/com/example/lyaho340hw1/EspressoTestingIdlingResource.java
 /*.log
