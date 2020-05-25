@@ -31,7 +31,7 @@ public class MatchesFragmentTest {
 
     @Test
     public void likeButton() throws InterruptedException {
-        Thread.sleep(10000);
+        Thread.sleep(15000);
         onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50)))
                 .check(matches(withContentDescription(R.string.not_liked)));
         onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50))).perform(click());
