@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +22,8 @@ import java.util.Date;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -32,6 +36,9 @@ public class MainActivityTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule
             = new ActivityTestRule<>(MainActivity.class, true, false);
+
+    private MainActivity mainActivity = null;
+    private IdlingResource idlingResource;
 
     @Before
     public void setUp() {
@@ -46,6 +53,14 @@ public class MainActivityTest {
         bundle.putSerializable(Constants.KEY_DOB, new Date());
         intent.putExtra(Constants.KEY_USER_DATA, bundle);
         activityTestRule.launchActivity(intent);
+    }
+
+    @Before
+    public void registerIdlingResource() {
+        mainActivity = activityTestRule.getActivity();
+        //idlingResource = mainActivity.getIdlingResource();
+        idlingResource = EspressoTestingIdlingResource.getIdlingResource();
+        IdlingRegistry.getInstance().register(idlingResource);
     }
 
     @Test
@@ -65,51 +80,36 @@ public class MainActivityTest {
     }
 
     @Test
-    public void tabsLoadViews() {
-//       try {
-            // Swipe to Matches
-            // onView(withId(R.id.generic_avatar)).perform(swipeLeft());
-
-            // Click on Matches Tab
-            onView(withText(R.string.tab_name_matches)).perform(click());
-
-            // Check Matches
-        onView(allOf(withId(R.id.match_picture), isCompletelyDisplayed()))
+    public void tabsLoadViews() throws InterruptedException {
+        // Click on Matches Tab
+        onView(withText(R.string.tab_name_matches)).perform(click());
+        Thread.sleep(5000);
+        // Check Matches
+        onView(allOf(withId(R.id.match_picture), isDisplayingAtLeast(30)))
                 .check(matches(withContentDescription(R.string.match_picture)));
-        onView(allOf(withId(R.id.match_name), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.match_name), isDisplayed()))
                 .check(matches(withContentDescription(R.string.match_name)));
-        onView(allOf(withId(R.id.like_button), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.like_button), isDisplayed()))
                 .check(matches(anyOf(withContentDescription(R.string.liked), withContentDescription(R.string.not_liked))));
 
-            // Swipe to Settings
-            // onView(withId(R.id.hotdog_cat_matches)).perform(swipeLeft());
-
-            // Click on Settings tab
+        // Click on Settings tab
         onView(withText(R.string.tab_name_settings)).perform(click());
 
-            // Check Settings
-            onView(withId(R.id.hotdog_cat_settings))
-                    .check(matches(withContentDescription(R.string.is_cat_with_hotdog)));
-
-            // Swipe back to Profile
-//            onView(withId(R.id.hotdog_cat_settings)).perform(swipeRight());
-//            onView(withId(R.id.hotdog_cat_matches)).perform(swipeRight());
+        // Check Settings
+        onView(withId(R.id.hotdog_cat_settings))
+               .check(matches(withContentDescription(R.string.is_cat_with_hotdog)));
 
         // Click on Profile tab
         onView(withText(R.string.tab_name_profile)).perform(click());
 
-            // Check Profile Image
-            onView(withId(R.id.generic_avatar))
-                    .check(matches(withContentDescription("generic avatar for profile picture")));
-//        } catch (NoMatchingViewException e) {
-//            Log.d("MainActivityTest", "swipe failed");
-//        }
+        // Check Profile Image
+        onView(withId(R.id.generic_avatar))
+                .check(matches(withContentDescription("generic avatar for profile picture")));
     }
 
     @Test
     public void rotationSavesInformation() {
         Activity activity = activityTestRule.getActivity();
-
         try {
             // don't currently have any state to save
             TestUtils.rotateScreen(activity);
@@ -145,6 +145,14 @@ public class MainActivityTest {
 //                    .check(matches(withText("testoccupation")));
             // rotate back
             if (activity != null) TestUtils.rotateScreen(activity);
+        }
+    }
+
+
+    @After
+    public void unregisterIdlingResource() {
+        if (idlingResource != null) {
+            IdlingRegistry.getInstance().unregister(idlingResource);
         }
     }
 

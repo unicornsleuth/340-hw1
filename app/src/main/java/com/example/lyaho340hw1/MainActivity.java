@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
+import androidx.test.espresso.IdlingResource;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -20,12 +23,14 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity {
 
     private String[] tabNames;
     private static final String TAG = MainActivity.class.getSimpleName();
     public Match currentMatch;
+    private IdlingResource idlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadSignInState() {
         currentMatch = new Match();
 
-        FirebaseAuth firebaseAuth = FirebaseAuthGetter.getFirebaseAuth();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
             //Intent intent = new Intent(MainActivity.this, SignInActivity.class);
@@ -113,6 +118,40 @@ public class MainActivity extends AppCompatActivity {
         public int getItemCount() {
             return mFragmentList.size();
         }
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (idlingResource == null) {
+            idlingResource = new IdlingResource() {
+                @Nullable
+                private volatile ResourceCallback callback;
+                private AtomicBoolean isIdleNow = new AtomicBoolean(true);
+                @Override
+                public String getName() {
+                    return this.getClass().getName();
+                }
+
+                @Override
+                public boolean isIdleNow() {
+                    return isIdleNow.get();
+                }
+
+                @Override
+                public void registerIdleTransitionCallback(ResourceCallback callback) {
+                    this.callback = callback;
+                }
+
+                public void setIdleState(boolean isIdleNow) {
+                    this.isIdleNow.set(isIdleNow);
+                    if (isIdleNow && callback != null) {
+                        callback.onTransitionToIdle();
+                    }
+                }
+            };
+        }
+        return idlingResource;
     }
 
 }

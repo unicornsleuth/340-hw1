@@ -27,22 +27,13 @@ public class MatchesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
         vm = new MatchViewModel();
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(), vm);
         recyclerView.setAdapter(adapter);
-        //recyclerView.setHasFixedSize(true);
 
-        //
-//        matchList = new ArrayList<>();
-//        vm.getMatches((ArrayList<Match> matches) -> {
-//            Log.e("matches.get(0).getImageUrl()", matches.get(0).getImageUrl());
-//            matchList.addAll(matches);
-//        });
-        // check - this is null
-        // Log.e("matchList.get(0).getImageUrl()", matchList.get(0).getImageUrl());
-        //adapter.setMatchArray(matchList);
         Log.d(TAG, "onCreateView invoked");
         return recyclerView;
     }
