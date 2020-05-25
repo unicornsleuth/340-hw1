@@ -12,7 +12,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
@@ -30,11 +30,12 @@ public class MatchesFragmentTest {
     }
 
     @Test
-    public void likeButton() {
-        onView(allOf(withId(R.id.like_button), isCompletelyDisplayed()))
+    public void likeButton() throws InterruptedException {
+        Thread.sleep(8000);
+        onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50)))
                 .check(matches(withContentDescription(R.string.not_liked)));
-        onView(allOf(withId(R.id.like_button), isCompletelyDisplayed())).perform(click());
-        onView(allOf(withId(R.id.like_button), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50))).perform(click());
+        onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50)))
                 .check(matches(withContentDescription(R.string.liked)));
     }
 }
