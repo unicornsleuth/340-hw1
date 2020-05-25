@@ -13,5 +13,5 @@
     <dimen name="form_button_width">150dp</dimen>
     <dimen name="font_size_std">20sp</dimen>
     <dimen name="font_size_big">25sp</dimen>
-    <dimen name="match_max_height">550dp</dimen>
+    <dimen name="match_max_height">500dp</dimen>
 </resources>

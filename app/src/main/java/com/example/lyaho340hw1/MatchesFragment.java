@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +29,13 @@ public class MatchesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+        ScrollView scrollView = (ScrollView) inflater.inflate(
                 R.layout.recycler_view, container, false);
+
+        RecyclerView recyclerView = (RecyclerView) scrollView.findViewById(R.id.my_recycler_view);
+//        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+//                R.layout.recycler_view, container, false);
+
         vm = new MatchViewModel();
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(), vm);
         recyclerView.setAdapter(adapter);

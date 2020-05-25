@@ -82,6 +82,7 @@ public class MainActivityTest {
         // Click on Matches Tab
         onView(withText(R.string.tab_name_matches)).perform(click());
         Thread.sleep(15000);
+        //onView(allOf(withId(R.id.match_picture), isDisplayingAtLeast(30))).perform(scrollTo());
         // Check Matches
         onView(allOf(withId(R.id.match_picture), isDisplayingAtLeast(30)))
                 .check(matches(withContentDescription(R.string.match_picture)));
