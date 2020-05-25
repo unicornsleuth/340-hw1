@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.IdlingResource;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,13 +53,13 @@ public class MainActivityTest {
         activityTestRule.launchActivity(intent);
     }
 
-    @Before
-    public void registerIdlingResource() {
-        mainActivity = activityTestRule.getActivity();
-        //idlingResource = mainActivity.getIdlingResource();
-        idlingResource = EspressoTestingIdlingResource.getIdlingResource();
-        IdlingRegistry.getInstance().register(idlingResource);
-    }
+//    @Before
+//    public void registerIdlingResource() {
+//        mainActivity = activityTestRule.getActivity();
+//        //idlingResource = mainActivity.getIdlingResource();
+//        idlingResource = EspressoTestingIdlingResource.getIdlingResource();
+//        IdlingRegistry.getInstance().register(idlingResource);
+//    }
 
     @Test
     public void loadsViews() {
@@ -149,11 +147,11 @@ public class MainActivityTest {
     }
 
 
-    @After
-    public void unregisterIdlingResource() {
-        if (idlingResource != null) {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
-    }
+//    @After
+//    public void unregisterIdlingResource() {
+//        if (idlingResource != null) {
+//            IdlingRegistry.getInstance().unregister(idlingResource);
+//        }
+//    }
 
 }
