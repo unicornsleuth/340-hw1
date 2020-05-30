@@ -14,4 +14,20 @@
         android:paddingVertical="@dimen/temp_padding"
         />
 
+    <TextView
+        android:id="@+id/textView_reminder_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hotdog_cat_settings"
+        android:layout_marginVertical="@dimen/text_padding"
+        />
+
+    <TimePicker
+        android:id="@+id/reminder_time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:timePickerMode="clock"
+        android:layout_toEndOf="@id/textView_reminder_time"
+        android:layout_marginHorizontal="@dimen/text_padding"/>
+
 </RelativeLayout>

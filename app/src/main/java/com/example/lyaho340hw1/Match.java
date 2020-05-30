@@ -1,10 +1,22 @@
 package com.example.lyaho340hw1;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Match {
 
+    @PrimaryKey
     private String uid;
+
+    @ColumnInfo(name = "email")
     private String email;
+
+    @ColumnInfo(name = "name")
     private String name;
+
     private String username;
     private String imageUrl;
     private int age;
@@ -27,7 +39,7 @@ public class Match {
     }
 
     // ACCESSORS
-
+//    @NonNull
 //    public String getUid() { return uid; }
 //
 //    public String getEmail() { return email; }
@@ -52,7 +64,7 @@ public class Match {
 //
 //    public void setLatitude(double latitude) { this.latitude = latitude; }
 
-    public void setUid(String uid) { this.uid = uid; }
+    public void setUid(@NonNull String uid) { this.uid = uid; }
 
     public void setEmail(String email) { this.email = email; }
 

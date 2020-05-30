@@ -7,7 +7,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.util.Consumer;
 
 import java.util.ArrayList;
-// how to communicate with UserModel - how to ask it for which types of data
+// how to communicate with MatchModel - how to ask it for which types of data
 public class MatchViewModel {
 
     private MatchModel matchModel;
