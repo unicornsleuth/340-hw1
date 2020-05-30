@@ -95,8 +95,8 @@ public class MainActivityTest {
         onView(withText(R.string.tab_name_settings)).perform(click());
 
         // Check Settings
-        onView(withId(R.id.hotdog_cat_settings))
-               .check(matches(withContentDescription(R.string.is_cat_with_hotdog)));
+//        onView(withId(R.id.hotdog_cat_settings))
+//               .check(matches(withContentDescription(R.string.is_cat_with_hotdog)));
 
         // Click on Profile tab
         onView(withText(R.string.tab_name_profile)).perform(click());

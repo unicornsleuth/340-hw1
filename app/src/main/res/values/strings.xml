@@ -58,4 +58,11 @@
     <string name="match_name">name of match</string>
     <string name="web_client_id_from_google_services" >657839479368-eeufgm9jrgkie6mdvr2duie4esceff81.apps.googleusercontent.com</string>
     <string name="app_client_id_from_google_services" >657839479368-nttqssif9kua5en8gr0a324c0r8euddk.apps.googleusercontent.com</string>
+    <string name="match_reminder_time_label">Daily Match Reminder Time:</string>
+    <string name="max_distance_label">Max Distance (in miles)</string>
+    <string name="your_gender_label">Your Gender:</string>
+    <string name="looking_for_gender_label">Looking for:</string>
+    <string name="account_privacy_label">Account Privacy:</string>
+    <string name="looking_for_ages_label">Looking for Ages:</string>
+    <string name="to">to</string>
 </resources>
