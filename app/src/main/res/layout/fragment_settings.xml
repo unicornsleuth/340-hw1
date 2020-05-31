@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_padding"
             android:text="@string/max_distance_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <EditText
             android:id="@+id/editText_max_distance"
@@ -26,7 +26,7 @@
             android:layout_toEndOf="@id/textView_max_distance"
             android:inputType="number"
             android:backgroundTint="@color/colorAccent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:autofillHints="10" />
 
         <View
@@ -35,16 +35,16 @@
             android:layout_height="1dp"
             android:layout_below="@id/editText_max_distance"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="@dimen/text_padding"/>
+            android:layout_marginVertical="@dimen/divider_spacing"
+            android:layout_marginHorizontal="@dimen/text_padding"/>
 
         <TextView
             android:id="@+id/textView_gender"
             android:layout_width="@dimen/settings_col_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_padding"
             android:layout_below="@id/divider_1"
             android:text="@string/your_gender_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <Spinner
             android:id="@+id/spinner_gender"
@@ -53,6 +53,7 @@
             android:layout_alignBottom="@id/textView_gender"
             android:layout_toEndOf="@id/textView_gender"
             android:backgroundTint="@color/colorAccent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             />
 
         <View
@@ -61,16 +62,16 @@
             android:layout_height="1dp"
             android:layout_below="@id/spinner_gender"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="@dimen/text_padding"/>
+            android:layout_marginVertical="@dimen/divider_spacing"
+            android:layout_marginHorizontal="@dimen/text_padding"/>
 
         <TextView
             android:id="@+id/textView_looking_for_gender"
             android:layout_width="@dimen/settings_col_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_padding"
             android:layout_below="@id/divider_2"
             android:text="@string/looking_for_gender_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <Spinner
             android:id="@+id/spinner_looking_for_gender"
@@ -79,6 +80,7 @@
             android:layout_alignBottom="@id/textView_looking_for_gender"
             android:layout_toEndOf="@id/textView_looking_for_gender"
             android:backgroundTint="@color/colorAccent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             />
 
         <View
@@ -87,16 +89,16 @@
             android:layout_height="1dp"
             android:layout_below="@id/spinner_looking_for_gender"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="@dimen/text_padding"/>
+            android:layout_marginVertical="@dimen/divider_spacing"
+            android:layout_marginHorizontal="@dimen/text_padding"/>
 
         <TextView
             android:id="@+id/textView_account_privacy"
             android:layout_width="@dimen/settings_col_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_padding"
             android:layout_below="@id/divider_3"
             android:text="@string/account_privacy_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <Spinner
             android:id="@+id/spinner_account_privacy"
@@ -105,6 +107,7 @@
             android:layout_alignBottom="@id/textView_account_privacy"
             android:layout_toEndOf="@id/textView_account_privacy"
             android:backgroundTint="@color/colorAccent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             />
 
         <View
@@ -113,16 +116,16 @@
             android:layout_height="1dp"
             android:layout_below="@id/spinner_account_privacy"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="@dimen/text_padding"/>
+            android:layout_marginVertical="@dimen/divider_spacing"
+            android:layout_marginHorizontal="@dimen/text_padding"/>
 
         <TextView
             android:id="@+id/textView_age_range"
             android:layout_width="@dimen/settings_col_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_padding"
             android:layout_below="@id/divider_4"
             android:text="@string/looking_for_ages_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <EditText
             android:id="@+id/editText_min_age"
@@ -133,7 +136,7 @@
             android:inputType="number"
             android:hint="18"
             android:backgroundTint="@color/colorAccent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:autofillHints="18" />
 
         <TextView
@@ -145,7 +148,7 @@
             android:layout_toEndOf="@id/editText_min_age"
             android:text="@string/to"
             android:layout_marginHorizontal="@dimen/text_padding"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <EditText
             android:id="@+id/editText_max_age"
@@ -156,7 +159,7 @@
             android:inputType="number"
             android:hint="99"
             android:backgroundTint="@color/colorAccent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:autofillHints="99" />
 
         <View
@@ -165,7 +168,8 @@
             android:layout_height="1dp"
             android:layout_below="@id/editText_max_age"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="@dimen/text_padding"/>
+            android:layout_marginVertical="@dimen/divider_spacing"
+            android:layout_marginHorizontal="@dimen/text_padding"/>
 
         <TextView
             android:id="@+id/textView_reminder_time"
@@ -173,8 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/reminder_time_picker"
             android:text="@string/match_reminder_time_label"
-            android:layout_marginVertical="@dimen/text_padding"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             />
 
         <TimePicker
@@ -187,7 +190,7 @@
             android:layout_below="@id/divider_5"
             android:layout_toEndOf="@id/textView_reminder_time"
             android:layout_marginHorizontal="@dimen/text_padding"
-            android:layout_marginBottom="@dimen/text_padding"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
 
         <View
             android:id="@+id/divider_6"
@@ -195,9 +198,19 @@
             android:layout_height="1dp"
             android:layout_below="@id/reminder_time_picker"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="@dimen/text_padding"/>
+            android:layout_marginVertical="@dimen/divider_spacing"
+            android:layout_marginHorizontal="@dimen/text_padding"/>
 
-
+        <Button
+            android:id="@+id/button_save_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider_6"
+            android:gravity="center"
+            android:text="@string/save_settings"
+            android:backgroundTint="@color/colorAccent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            />
 
 
 

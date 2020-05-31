@@ -52,12 +52,17 @@
     <string name="match_8">Peperomia</string>
     <string name="match_9">Syngonium</string>
     <string name="match_10">Aglaonema</string>
+
+    // MATCHES
     <string name="match_picture">profile picture of match</string>
     <string name="not_liked">not liked</string>
     <string name="liked">liked</string>
     <string name="match_name">name of match</string>
+
     <string name="web_client_id_from_google_services" >657839479368-eeufgm9jrgkie6mdvr2duie4esceff81.apps.googleusercontent.com</string>
     <string name="app_client_id_from_google_services" >657839479368-nttqssif9kua5en8gr0a324c0r8euddk.apps.googleusercontent.com</string>
+
+    // SETTINGS
     <string name="match_reminder_time_label">Daily Match Reminder Time:</string>
     <string name="max_distance_label">Max Distance (in miles)</string>
     <string name="your_gender_label">Your Gender:</string>
@@ -65,4 +70,19 @@
     <string name="account_privacy_label">Account Privacy:</string>
     <string name="looking_for_ages_label">Looking for Ages:</string>
     <string name="to">to</string>
+    <string name="save_settings">Save</string>
+    <string name="max_distance_error">max distance cannot be less than 1</string>
+    <string name="min_age_error">min age cannot be less than 18</string>
+    <string name="max_age_error">max age cannot be less than min age</string>
+    <string-array name="genders">
+        <item>male</item>
+        <item>female</item>
+        <item>non-binary</item>
+        <item>other</item>
+    </string-array>
+    <string-array name="account_privacy">
+        <item>private</item>
+        <item>public</item>
+    </string-array>
+
 </resources>

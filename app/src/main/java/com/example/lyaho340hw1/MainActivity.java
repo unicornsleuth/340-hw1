@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] tabNames;
     private static final String TAG = MainActivity.class.getSimpleName();
-    public Match currentMatch;
+    public String userEmail;
     private IdlingResource idlingResource;
 
     @Override
@@ -52,23 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG,"onCreate invoked");
     }
-
-    // Loads info from Google Sign In to User object
-//    private void loadSignInState() {
-//        currentMatch = new Match();
-//
-//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//        if (firebaseUser == null) {
-//            //Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-//            //startActivity(intent);
-//            //finish();
-//        } else {
-//            currentMatch.setEmail(Objects.requireNonNull(firebaseUser.getEmail()));
-//            currentMatch.setName(Objects.requireNonNull(firebaseUser.getDisplayName()));
-//            currentMatch.setImageUrl(Objects.requireNonNull(firebaseUser.getPhotoUrl()).toString());
-//        }
-//    }
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager2 viewPager) {
@@ -113,39 +96,5 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
     }
-
-//    @VisibleForTesting
-//    @NonNull
-//    public IdlingResource getIdlingResource() {
-//        if (idlingResource == null) {
-//            idlingResource = new IdlingResource() {
-//                @Nullable
-//                private volatile ResourceCallback callback;
-//                private AtomicBoolean isIdleNow = new AtomicBoolean(true);
-//                @Override
-//                public String getName() {
-//                    return this.getClass().getName();
-//                }
-//
-//                @Override
-//                public boolean isIdleNow() {
-//                    return isIdleNow.get();
-//                }
-//
-//                @Override
-//                public void registerIdleTransitionCallback(ResourceCallback callback) {
-//                    this.callback = callback;
-//                }
-//
-//                public void setIdleState(boolean isIdleNow) {
-//                    this.isIdleNow.set(isIdleNow);
-//                    if (isIdleNow && callback != null) {
-//                        callback.onTransitionToIdle();
-//                    }
-//                }
-//            };
-//        }
-//        return idlingResource;
-//    }
 
 }

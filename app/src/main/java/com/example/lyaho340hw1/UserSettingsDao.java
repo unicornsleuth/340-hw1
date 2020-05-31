@@ -1,31 +1,31 @@
 package com.example.lyaho340hw1;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
 @Dao
 public interface UserSettingsDao {
-    @Query("SELECT * FROM user_settings")
-    List<UserSettings> getAll();
 
-    @Query("SELECT * FROM user_settings WHERE email IN (:emails)")
-    List<UserSettings> loadAllByEMail(int[] emails);
+    @Query("SELECT * FROM user_settings")
+    LiveData<List<UserSettings>> getAll();
 
     @Query("SELECT * FROM user_settings WHERE email LIKE :email LIMIT 1")
-    UserSettings findByName(String email);
+    UserSettings findByEmail(String email);
+
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    void insertAll(UserSettings... userSettings);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(UserSettings... userSettings);
+    void insert(UserSettings userSettings);
 
-    @Update
-    void updateUserSettings(UserSettings... userSettings);
-
-    @Delete
-    void delete(UserSettings userSettings);
+//    @Update
+//    void updateUserSettings(UserSettings... userSettings);
+//
+//    @Delete
+//    void delete(UserSettings userSettings);
 }
