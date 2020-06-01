@@ -10,7 +10,7 @@ public class UserSettingsRepository {
 
     private UserSettingsDao userSettingsDao;
     private LiveData<List<UserSettings>> allUserSettings;
-    private UserSettings currentUserSettings;
+    private LiveData<UserSettings> currentUserSettings;
 
     UserSettingsRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -18,15 +18,13 @@ public class UserSettingsRepository {
         allUserSettings = userSettingsDao.getAll();
     }
 
-    LiveData<List<UserSettings>> getAllUserSettings() { return allUserSettings; }
-
     void insert(UserSettings userSettings) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             userSettingsDao.insert(userSettings);
         });
     }
 
-    UserSettings findSettingsByEmail(String email) {
+    LiveData<UserSettings> findSettingsByEmail(String email) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             currentUserSettings = userSettingsDao.findByEmail(email);
         });

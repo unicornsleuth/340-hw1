@@ -20,8 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.List;
-
 public class SettingsFragment extends Fragment {
 
     public EditText maxDistance;
@@ -117,89 +115,75 @@ public class SettingsFragment extends Fragment {
             Bundle incomingExtras = incomingState.getBundle(Constants.KEY_USER_DATA);
 
             if (incomingExtras != null) {
-                loadSettingsIntoForm(incomingExtras);
-                Log.d(TAG, "loadSettingsIntoForm(incomingExtras) invoked");
-            }
-        }
-
-        String userEmail = incomingState.getBundle(Constants.KEY_USER_DATA).getString(Constants.KEY_EMAIL);
-
-        vm.getAllUserSettings().observe(getViewLifecycleOwner(), new Observer<List<UserSettings>>() {
-            @Override
-            public void onChanged(@Nullable final List<UserSettings> userSettingsList) {
-                // Update the cached copy of the settings
-                for (int i = 0; i < userSettingsList.size(); i++) {
-                    if (userSettingsList.get(i).getEmail() == userEmail) {
-                        userSettings = userSettingsList.get(i);
-                        loadSettingsIntoForm();
-                        Log.d(TAG, "loadSettingsIntoForm() invoked");
-                    }
+                if (incomingExtras.containsKey(Constants.KEY_EMAIL)) {
+                    String email = incomingExtras.getString(Constants.KEY_EMAIL);
+                    Log.e("email from incoming intent:", email);
+                    final UserSettings[] settingsFromAppDatabase = new UserSettings[1];
+                    vm.findSettingsByEmail(email).observe(getViewLifecycleOwner(), new Observer<UserSettings>() {
+                        @Override
+                        public void onChanged(@Nullable final UserSettings userSettingsFromDb) {
+                            // Update the cached copy of the settings
+                            settingsFromAppDatabase[0] = userSettingsFromDb;
+                            loadSettingsIntoForm();
+                            Log.d(TAG, "loadSettingsIntoForm() invoked");
+                        }
+                    });
+                    Log.d(TAG, "loadSettingsIntoForm(incomingExtras) invoked");
                 }
             }
-        });
-
-        Log.d(TAG, "onActivityCreated invoked");
-    }
-
-    public void loadSettingsIntoForm(Bundle incomingExtras) {
-        if (incomingExtras.containsKey(Constants.KEY_EMAIL)) {
-            String email = incomingExtras.getString(Constants.KEY_EMAIL);
-            Log.e("email from incoming intent:", email);
-            UserSettings settingsFromAppDatabase = vm.findSettingsByEmail(email);
-            if (settingsFromAppDatabase != null) {
-                // Load state
-                userSettings = settingsFromAppDatabase;
-            } else {
-                userSettings.setEmail(email);
-                // this is a test - remove later
-                userSettings.setMaxDistance(69);
-            }
-        }
-        // Set values in form
-        maxDistance.setText(Integer.toString(userSettings.getMaxDistance()));
-
-        if (!userSettings.getReminderTime().equals("")) { reminderTimeString = userSettings.getReminderTime(); }
-        int hour = Integer.parseInt(reminderTimeString.substring(0, 1));
-        reminderTimePicker.setHour(hour);
-        int minute = Integer.parseInt(reminderTimeString.substring(3, 4));
-        reminderTimePicker.setMinute(minute);
-
-        int genderPosition;
-        if (userSettings.getGender().equals(
-                getResources().getStringArray(R.array.genders)[0])) { genderPosition = 0; }
-        else if (userSettings.getGender().equals(
-                getResources().getStringArray(R.array.genders)[1])) { genderPosition = 1; }
-        else if (userSettings.getGender().equals(
-                getResources().getStringArray(R.array.genders)[2])) { genderPosition = 2; }
-        else if (userSettings.getGender().equals(
-                getResources().getStringArray(R.array.genders)[3])) { genderPosition = 3; }
-        else { genderPosition = 0; }
-        gender.setSelection(genderPosition);
-
-        int lookingForGenderPosition;
-        if (userSettings.getLookingForGender().equals(
-                getResources().getStringArray(R.array.genders)[0])) { lookingForGenderPosition = 0; }
-        else if (userSettings.getLookingForGender().equals(
-                getResources().getStringArray(R.array.genders)[1])) { lookingForGenderPosition = 1; }
-        else if (userSettings.getLookingForGender().equals(
-                getResources().getStringArray(R.array.genders)[2])) { lookingForGenderPosition = 2; }
-        else if (userSettings.getLookingForGender().equals(
-                getResources().getStringArray(R.array.genders)[3])) { lookingForGenderPosition = 3; }
-        else { lookingForGenderPosition = 0; }
-        gender.setSelection(lookingForGenderPosition);
-
-        int privacyPosition;
-        if (userSettings.getPrivateAccount()) { privacyPosition = 0; }
-        else { privacyPosition = 1; }
-        accountPrivacy.setSelection(privacyPosition);
-
-        if ((Integer) userSettings.getMinAge() != null) {
-            minAge.setText(Integer.toString(userSettings.getMinAge()));
-        }
-        if ((Integer) userSettings.getMaxAge() != null) {
-            maxAge.setText(Integer.toString(userSettings.getMaxAge()));
+//
+//            String userEmail = incomingState.getBundle(Constants.KEY_USER_DATA).getString(Constants.KEY_EMAIL);
+            Log.d(TAG, "onActivityCreated invoked");
         }
     }
+
+//    public void loadSettingsIntoForm(UserSettings incomingUserSettings) {
+//
+//        // Set values in form
+//        maxDistance.setText(Integer.toString(userSettings.getMaxDistance()));
+//
+//        if (!userSettings.getReminderTime().equals("")) { reminderTimeString = userSettings.getReminderTime(); }
+//        int hour = Integer.parseInt(reminderTimeString.substring(0, 1));
+//        reminderTimePicker.setHour(hour);
+//        int minute = Integer.parseInt(reminderTimeString.substring(3, 4));
+//        reminderTimePicker.setMinute(minute);
+//
+//        int genderPosition;
+//        if (userSettings.getGender().equals(
+//                getResources().getStringArray(R.array.genders)[0])) { genderPosition = 0; }
+//        else if (userSettings.getGender().equals(
+//                getResources().getStringArray(R.array.genders)[1])) { genderPosition = 1; }
+//        else if (userSettings.getGender().equals(
+//                getResources().getStringArray(R.array.genders)[2])) { genderPosition = 2; }
+//        else if (userSettings.getGender().equals(
+//                getResources().getStringArray(R.array.genders)[3])) { genderPosition = 3; }
+//        else { genderPosition = 0; }
+//        gender.setSelection(genderPosition);
+//
+//        int lookingForGenderPosition;
+//        if (userSettings.getLookingForGender().equals(
+//                getResources().getStringArray(R.array.genders)[0])) { lookingForGenderPosition = 0; }
+//        else if (userSettings.getLookingForGender().equals(
+//                getResources().getStringArray(R.array.genders)[1])) { lookingForGenderPosition = 1; }
+//        else if (userSettings.getLookingForGender().equals(
+//                getResources().getStringArray(R.array.genders)[2])) { lookingForGenderPosition = 2; }
+//        else if (userSettings.getLookingForGender().equals(
+//                getResources().getStringArray(R.array.genders)[3])) { lookingForGenderPosition = 3; }
+//        else { lookingForGenderPosition = 0; }
+//        gender.setSelection(lookingForGenderPosition);
+//
+//        int privacyPosition;
+//        if (userSettings.getPrivateAccount()) { privacyPosition = 0; }
+//        else { privacyPosition = 1; }
+//        accountPrivacy.setSelection(privacyPosition);
+//
+//        if ((Integer) userSettings.getMinAge() != null && userSettings.getMinAge() != 0) {
+//            minAge.setText(Integer.toString(userSettings.getMinAge()));
+//        }
+//        if ((Integer) userSettings.getMaxAge() != null && userSettings.getMaxAge() != 0) {
+//            maxAge.setText(Integer.toString(userSettings.getMaxAge()));
+//        }
+//    }
 
     public void loadSettingsIntoForm() {
         maxDistance.setText(userSettings.getMaxDistance());
@@ -237,10 +221,10 @@ public class SettingsFragment extends Fragment {
         else { privacyPosition = 1; }
         accountPrivacy.setSelection(privacyPosition);
 
-        if ((Integer) userSettings.getMinAge() != null) {
+        if ((Integer) userSettings.getMinAge() != null && userSettings.getMinAge() != 0) {
             minAge.setText(Integer.toString(userSettings.getMinAge()));
         }
-        if ((Integer) userSettings.getMaxAge() != null) {
+        if ((Integer) userSettings.getMaxAge() != null && userSettings.getMaxAge() != 0) {
             maxAge.setText(Integer.toString(userSettings.getMaxAge()));
         }
     }

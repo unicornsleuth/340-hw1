@@ -15,7 +15,7 @@ public interface UserSettingsDao {
     LiveData<List<UserSettings>> getAll();
 
     @Query("SELECT * FROM user_settings WHERE email LIKE :email LIMIT 1")
-    UserSettings findByEmail(String email);
+    LiveData<UserSettings> findByEmail(String email);
 
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    void insertAll(UserSettings... userSettings);
