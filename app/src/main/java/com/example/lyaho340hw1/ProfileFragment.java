@@ -53,9 +53,6 @@ public class ProfileFragment extends Fragment {
             Bundle incomingExtras = incomingState.getBundle(Constants.KEY_USER_DATA);
 
             if (incomingExtras != null) {
-//                if (incomingExtras.containsKey(Constants.KEY_USERNAME)) {
-//                    usernameDisplay.setText(incomingExtras.getString(Constants.KEY_USERNAME));
-//                }
                 if (incomingExtras.containsKey(Constants.KEY_NAME)) {
                     nameDisplay.setText(incomingExtras.getString(Constants.KEY_NAME));
                 }
@@ -72,12 +69,9 @@ public class ProfileFragment extends Fragment {
                 if (incomingExtras.containsKey(Constants.KEY_BIO)) {
                     bioDisplay.setText(incomingExtras.getString(Constants.KEY_BIO));
                 }
-//                if (incomingExtras.containsKey(Constants.KEY_OCCUPATION)) {
-//                    occupationDisplay.setText(incomingExtras.getString(Constants.KEY_OCCUPATION));
-//                }
             }
         }
-        Log.d(TAG, "onCreate invoked");
+        Log.d(TAG, "onActivityCreated invoked");
     }
 
     @Override

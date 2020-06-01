@@ -20,8 +20,8 @@ import java.util.Date;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -84,7 +84,7 @@ public class MainActivityTest {
         Thread.sleep(15000);
         //onView(allOf(withId(R.id.match_picture), isDisplayingAtLeast(30))).perform(scrollTo());
         // Check Matches
-        onView(allOf(withId(R.id.match_picture), isDisplayingAtLeast(30)))
+        onView(allOf(withId(R.id.match_picture), isCompletelyDisplayed()))
                 .check(matches(withContentDescription(R.string.match_picture)));
         onView(allOf(withId(R.id.match_name), isDisplayed()))
                 .check(matches(withContentDescription(R.string.match_name)));
