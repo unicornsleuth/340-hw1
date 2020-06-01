@@ -42,9 +42,7 @@ class UserSettings {
         maxDistance = 100;
         gender = "";
         lookingForGender = "";
-        privateAccount = true;
-        minAge = 18;
-        maxAge = 99; }
+        privateAccount = true; }
 
     // ACCESSORS
 

@@ -144,6 +144,7 @@ public class SettingsFragment extends Fragment {
     public void loadSettingsIntoForm(Bundle incomingExtras) {
         if (incomingExtras.containsKey(Constants.KEY_EMAIL)) {
             String email = incomingExtras.getString(Constants.KEY_EMAIL);
+            Log.e("email from incoming intent:", email);
             UserSettings settingsFromAppDatabase = vm.findSettingsByEmail(email);
             if (settingsFromAppDatabase != null) {
                 // Load state
@@ -151,7 +152,7 @@ public class SettingsFragment extends Fragment {
             } else {
                 userSettings.setEmail(email);
                 // this is a test - remove later
-                userSettings.setMaxAge(69);
+                userSettings.setMaxDistance(69);
             }
         }
         // Set values in form
@@ -163,7 +164,7 @@ public class SettingsFragment extends Fragment {
         int minute = Integer.parseInt(reminderTimeString.substring(3, 4));
         reminderTimePicker.setMinute(minute);
 
-        int genderPosition = 0;
+        int genderPosition;
         if (userSettings.getGender().equals(
                 getResources().getStringArray(R.array.genders)[0])) { genderPosition = 0; }
         else if (userSettings.getGender().equals(
@@ -172,9 +173,10 @@ public class SettingsFragment extends Fragment {
                 getResources().getStringArray(R.array.genders)[2])) { genderPosition = 2; }
         else if (userSettings.getGender().equals(
                 getResources().getStringArray(R.array.genders)[3])) { genderPosition = 3; }
+        else { genderPosition = 0; }
         gender.setSelection(genderPosition);
 
-        int lookingForGenderPosition = 0;
+        int lookingForGenderPosition;
         if (userSettings.getLookingForGender().equals(
                 getResources().getStringArray(R.array.genders)[0])) { lookingForGenderPosition = 0; }
         else if (userSettings.getLookingForGender().equals(
@@ -183,6 +185,7 @@ public class SettingsFragment extends Fragment {
                 getResources().getStringArray(R.array.genders)[2])) { lookingForGenderPosition = 2; }
         else if (userSettings.getLookingForGender().equals(
                 getResources().getStringArray(R.array.genders)[3])) { lookingForGenderPosition = 3; }
+        else { lookingForGenderPosition = 0; }
         gender.setSelection(lookingForGenderPosition);
 
         int privacyPosition;
@@ -190,8 +193,12 @@ public class SettingsFragment extends Fragment {
         else { privacyPosition = 1; }
         accountPrivacy.setSelection(privacyPosition);
 
-        minAge.setText(Integer.toString(userSettings.getMinAge()));
-        maxAge.setText(Integer.toString(userSettings.getMaxAge()));
+        if ((Integer) userSettings.getMinAge() != null) {
+            minAge.setText(Integer.toString(userSettings.getMinAge()));
+        }
+        if ((Integer) userSettings.getMaxAge() != null) {
+            maxAge.setText(Integer.toString(userSettings.getMaxAge()));
+        }
     }
 
     public void loadSettingsIntoForm() {
@@ -230,8 +237,12 @@ public class SettingsFragment extends Fragment {
         else { privacyPosition = 1; }
         accountPrivacy.setSelection(privacyPosition);
 
-        minAge.setText(userSettings.getMinAge());
-        maxAge.setText(userSettings.getMaxAge());
+        if ((Integer) userSettings.getMinAge() != null) {
+            minAge.setText(Integer.toString(userSettings.getMinAge()));
+        }
+        if ((Integer) userSettings.getMaxAge() != null) {
+            maxAge.setText(Integer.toString(userSettings.getMaxAge()));
+        }
     }
 
     public void onSaveSettingsSubmit(View view) {
