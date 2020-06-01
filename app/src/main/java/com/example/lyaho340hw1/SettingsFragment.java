@@ -118,12 +118,11 @@ public class SettingsFragment extends Fragment {
                 if (incomingExtras.containsKey(Constants.KEY_EMAIL)) {
                     String email = incomingExtras.getString(Constants.KEY_EMAIL);
                     Log.e("email from incoming intent:", email);
-                    final UserSettings[] settingsFromAppDatabase = new UserSettings[1];
                     vm.findSettingsByEmail(email).observe(getViewLifecycleOwner(), new Observer<UserSettings>() {
                         @Override
                         public void onChanged(@Nullable final UserSettings userSettingsFromDb) {
                             // Update the cached copy of the settings
-                            settingsFromAppDatabase[0] = userSettingsFromDb;
+                            userSettings = userSettingsFromDb;
                             loadSettingsIntoForm();
                             Log.d(TAG, "loadSettingsIntoForm() invoked");
                         }
@@ -186,7 +185,7 @@ public class SettingsFragment extends Fragment {
 //    }
 
     public void loadSettingsIntoForm() {
-        maxDistance.setText(userSettings.getMaxDistance());
+        maxDistance.setText(Integer.toString(userSettings.getMaxDistance()));
 
         if (!userSettings.getReminderTime().equals("")) { reminderTimeString = userSettings.getReminderTime(); }
         int hour = Integer.parseInt(reminderTimeString.substring(0, 1));

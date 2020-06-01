@@ -25,10 +25,7 @@ public class UserSettingsRepository {
     }
 
     LiveData<UserSettings> findSettingsByEmail(String email) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            currentUserSettings = userSettingsDao.findByEmail(email);
-        });
-        return currentUserSettings;
+        return userSettingsDao.findByEmail(email);
     }
 
 }
