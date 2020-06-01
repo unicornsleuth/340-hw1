@@ -101,6 +101,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        Log.d(TAG, "onCreateView invoked");
         return view;
     }
 
@@ -117,6 +118,7 @@ public class SettingsFragment extends Fragment {
 
             if (incomingExtras != null) {
                 loadSettingsIntoForm(incomingExtras);
+                Log.d(TAG, "loadSettingsIntoForm(incomingExtras) invoked");
             }
         }
 
@@ -130,6 +132,7 @@ public class SettingsFragment extends Fragment {
                     if (userSettingsList.get(i).getEmail() == userEmail) {
                         userSettings = userSettingsList.get(i);
                         loadSettingsIntoForm();
+                        Log.d(TAG, "loadSettingsIntoForm() invoked");
                     }
                 }
             }
@@ -145,47 +148,48 @@ public class SettingsFragment extends Fragment {
             if (settingsFromAppDatabase != null) {
                 // Load state
                 userSettings = settingsFromAppDatabase;
-
-                maxDistance.setText(userSettings.getMaxDistance());
-
-                if (!userSettings.getReminderTime().equals("")) { reminderTimeString = userSettings.getReminderTime(); }
-                int hour = Integer.parseInt(reminderTimeString.substring(0, 1));
-                reminderTimePicker.setHour(hour);
-                int minute = Integer.parseInt(reminderTimeString.substring(3, 4));
-                reminderTimePicker.setMinute(minute);
-
-                int genderPosition = 0;
-                if (userSettings.getGender().equals(
-                        getResources().getStringArray(R.array.genders)[0])) { genderPosition = 0; }
-                else if (userSettings.getGender().equals(
-                        getResources().getStringArray(R.array.genders)[1])) { genderPosition = 1; }
-                else if (userSettings.getGender().equals(
-                        getResources().getStringArray(R.array.genders)[2])) { genderPosition = 2; }
-                else if (userSettings.getGender().equals(
-                        getResources().getStringArray(R.array.genders)[3])) { genderPosition = 3; }
-                gender.setSelection(genderPosition);
-
-                int lookingForGenderPosition = 0;
-                if (userSettings.getLookingForGender().equals(
-                        getResources().getStringArray(R.array.genders)[0])) { lookingForGenderPosition = 0; }
-                else if (userSettings.getLookingForGender().equals(
-                        getResources().getStringArray(R.array.genders)[1])) { lookingForGenderPosition = 1; }
-                else if (userSettings.getLookingForGender().equals(
-                        getResources().getStringArray(R.array.genders)[2])) { lookingForGenderPosition = 2; }
-                else if (userSettings.getLookingForGender().equals(
-                        getResources().getStringArray(R.array.genders)[3])) { lookingForGenderPosition = 3; }
-                gender.setSelection(lookingForGenderPosition);
-
-                int privacyPosition;
-                if (userSettings.getPrivateAccount()) { privacyPosition = 0; }
-                else { privacyPosition = 1; }
-                accountPrivacy.setSelection(privacyPosition);
-
-                minAge.setText(userSettings.getMinAge());
-                maxAge.setText(userSettings.getMaxAge());
+            } else {
+                userSettings.setEmail(email);
             }
-            else { userSettings.setEmail(email); }
         }
+        // Set values in form
+        maxDistance.setText(Integer.toString(userSettings.getMaxDistance()));
+
+        if (!userSettings.getReminderTime().equals("")) { reminderTimeString = userSettings.getReminderTime(); }
+        int hour = Integer.parseInt(reminderTimeString.substring(0, 1));
+        reminderTimePicker.setHour(hour);
+        int minute = Integer.parseInt(reminderTimeString.substring(3, 4));
+        reminderTimePicker.setMinute(minute);
+
+        int genderPosition = 0;
+        if (userSettings.getGender().equals(
+                getResources().getStringArray(R.array.genders)[0])) { genderPosition = 0; }
+        else if (userSettings.getGender().equals(
+                getResources().getStringArray(R.array.genders)[1])) { genderPosition = 1; }
+        else if (userSettings.getGender().equals(
+                getResources().getStringArray(R.array.genders)[2])) { genderPosition = 2; }
+        else if (userSettings.getGender().equals(
+                getResources().getStringArray(R.array.genders)[3])) { genderPosition = 3; }
+        gender.setSelection(genderPosition);
+
+        int lookingForGenderPosition = 0;
+        if (userSettings.getLookingForGender().equals(
+                getResources().getStringArray(R.array.genders)[0])) { lookingForGenderPosition = 0; }
+        else if (userSettings.getLookingForGender().equals(
+                getResources().getStringArray(R.array.genders)[1])) { lookingForGenderPosition = 1; }
+        else if (userSettings.getLookingForGender().equals(
+                getResources().getStringArray(R.array.genders)[2])) { lookingForGenderPosition = 2; }
+        else if (userSettings.getLookingForGender().equals(
+                getResources().getStringArray(R.array.genders)[3])) { lookingForGenderPosition = 3; }
+        gender.setSelection(lookingForGenderPosition);
+
+        int privacyPosition;
+        if (userSettings.getPrivateAccount()) { privacyPosition = 0; }
+        else { privacyPosition = 1; }
+        accountPrivacy.setSelection(privacyPosition);
+
+        minAge.setText(Integer.toString(userSettings.getMinAge()));
+        maxAge.setText(Integer.toString(userSettings.getMaxAge()));
     }
 
     public void loadSettingsIntoForm() {
