@@ -130,59 +130,9 @@ public class SettingsFragment extends Fragment {
                     Log.d(TAG, "loadSettingsIntoForm(incomingExtras) invoked");
                 }
             }
-//
-//            String userEmail = incomingState.getBundle(Constants.KEY_USER_DATA).getString(Constants.KEY_EMAIL);
             Log.d(TAG, "onActivityCreated invoked");
         }
     }
-
-//    public void loadSettingsIntoForm(UserSettings incomingUserSettings) {
-//
-//        // Set values in form
-//        maxDistance.setText(Integer.toString(userSettings.getMaxDistance()));
-//
-//        if (!userSettings.getReminderTime().equals("")) { reminderTimeString = userSettings.getReminderTime(); }
-//        int hour = Integer.parseInt(reminderTimeString.substring(0, 1));
-//        reminderTimePicker.setHour(hour);
-//        int minute = Integer.parseInt(reminderTimeString.substring(3, 4));
-//        reminderTimePicker.setMinute(minute);
-//
-//        int genderPosition;
-//        if (userSettings.getGender().equals(
-//                getResources().getStringArray(R.array.genders)[0])) { genderPosition = 0; }
-//        else if (userSettings.getGender().equals(
-//                getResources().getStringArray(R.array.genders)[1])) { genderPosition = 1; }
-//        else if (userSettings.getGender().equals(
-//                getResources().getStringArray(R.array.genders)[2])) { genderPosition = 2; }
-//        else if (userSettings.getGender().equals(
-//                getResources().getStringArray(R.array.genders)[3])) { genderPosition = 3; }
-//        else { genderPosition = 0; }
-//        gender.setSelection(genderPosition);
-//
-//        int lookingForGenderPosition;
-//        if (userSettings.getLookingForGender().equals(
-//                getResources().getStringArray(R.array.genders)[0])) { lookingForGenderPosition = 0; }
-//        else if (userSettings.getLookingForGender().equals(
-//                getResources().getStringArray(R.array.genders)[1])) { lookingForGenderPosition = 1; }
-//        else if (userSettings.getLookingForGender().equals(
-//                getResources().getStringArray(R.array.genders)[2])) { lookingForGenderPosition = 2; }
-//        else if (userSettings.getLookingForGender().equals(
-//                getResources().getStringArray(R.array.genders)[3])) { lookingForGenderPosition = 3; }
-//        else { lookingForGenderPosition = 0; }
-//        gender.setSelection(lookingForGenderPosition);
-//
-//        int privacyPosition;
-//        if (userSettings.getPrivateAccount()) { privacyPosition = 0; }
-//        else { privacyPosition = 1; }
-//        accountPrivacy.setSelection(privacyPosition);
-//
-//        if ((Integer) userSettings.getMinAge() != null && userSettings.getMinAge() != 0) {
-//            minAge.setText(Integer.toString(userSettings.getMinAge()));
-//        }
-//        if ((Integer) userSettings.getMaxAge() != null && userSettings.getMaxAge() != 0) {
-//            maxAge.setText(Integer.toString(userSettings.getMaxAge()));
-//        }
-//    }
 
     public void loadSettingsIntoForm() {
         if (userSettings == null) {
@@ -283,5 +233,22 @@ public class SettingsFragment extends Fragment {
             }
         }
     }
+
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        // implement parcelable in UserSettings
+//        outState.putParcelable("User Settings", userSettings);
+//        Log.d(TAG, "onSaveInstanceState invoked");
+//    }
+
+    //    @Override
+//    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        Log.d(TAG, "onRestoreInstanceState invoked");
+//        // implement parcelable in UserSettings
+//        userSettings = savedInstanceState.getParcelable("User Settings");
+//        Log.d(TAG, "onRestoreInstanceState invoked");
+//    }
 
 }

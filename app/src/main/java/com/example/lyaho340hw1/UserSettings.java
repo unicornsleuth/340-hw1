@@ -1,12 +1,15 @@
 package com.example.lyaho340hw1;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_settings")
-class UserSettings {
+class UserSettings implements Parcelable {
 
     @NonNull
     @PrimaryKey
@@ -67,4 +70,13 @@ class UserSettings {
     public void setMinAge(int newMinAge) { minAge = newMinAge; }
     public void setMaxAge(int newMaxAge) { maxAge = newMaxAge; }
 
+    @Override
+    public int describeContents() {
+        return 0; // STUB
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        // STUB
+    }
 }
