@@ -22,15 +22,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class SettingsFragment extends Fragment {
 
-    public EditText maxDistance;
-    public TimePicker reminderTimePicker;
-    public String reminderTimeString;
-    public Spinner gender;
-    public Spinner lookingForGender;
-    public Spinner accountPrivacy;
-    public EditText minAge;
-    public EditText maxAge;
-    public Button saveSettingsButton;
+    private EditText maxDistance;
+    private TimePicker reminderTimePicker;
+    private String reminderTimeString;
+    private Spinner gender;
+    private Spinner lookingForGender;
+    private Spinner accountPrivacy;
+    private EditText minAge;
+    private EditText maxAge;
+    private Button saveSettingsButton;
     private UserSettings userSettings = new UserSettings();
 
     private UserSettingsViewModel vm;
@@ -85,9 +85,7 @@ public class SettingsFragment extends Fragment {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 String reminderHour = String.format("%02d", hourOfDay);
                 String reminderMinute = String.format("%02d", minute);
-                StringBuilder reminderTime = new StringBuilder(reminderHour)
-                        .append(":").append(reminderMinute);
-                reminderTimeString = reminderTime.toString();
+                reminderTimeString = reminderHour + ":" + reminderMinute;
             }
         });
 
@@ -117,7 +115,6 @@ public class SettingsFragment extends Fragment {
             if (incomingExtras != null) {
                 if (incomingExtras.containsKey(Constants.KEY_EMAIL)) {
                     String email = incomingExtras.getString(Constants.KEY_EMAIL);
-                    Log.e("email from incoming intent:", email);
                     vm.findSettingsByEmail(email).observe(getViewLifecycleOwner(), new Observer<UserSettings>() {
                         @Override
                         public void onChanged(@Nullable final UserSettings userSettingsFromDb) {
@@ -127,7 +124,6 @@ public class SettingsFragment extends Fragment {
                             Log.d(TAG, "loadSettingsIntoForm() invoked");
                         }
                     });
-                    Log.d(TAG, "loadSettingsIntoForm(incomingExtras) invoked");
                 }
             }
             Log.d(TAG, "onActivityCreated invoked");
@@ -141,32 +137,28 @@ public class SettingsFragment extends Fragment {
         maxDistance.setText(Integer.toString(userSettings.getMaxDistance()));
 
         if (!userSettings.getReminderTime().equals("")) { reminderTimeString = userSettings.getReminderTime(); }
-        int hour = Integer.parseInt(reminderTimeString.substring(0, 1));
+        int hour = Integer.parseInt(reminderTimeString.substring(0, 2));
         reminderTimePicker.setHour(hour);
         int minute = Integer.parseInt(reminderTimeString.substring(3, 4));
         reminderTimePicker.setMinute(minute);
 
         int genderPosition = 0;
-        if (userSettings.getGender().equals(
-                getResources().getStringArray(R.array.genders)[0])) { genderPosition = 0; }
-        else if (userSettings.getGender().equals(
-                getResources().getStringArray(R.array.genders)[1])) { genderPosition = 1; }
-        else if (userSettings.getGender().equals(
-                getResources().getStringArray(R.array.genders)[2])) { genderPosition = 2; }
-        else if (userSettings.getGender().equals(
-                getResources().getStringArray(R.array.genders)[3])) { genderPosition = 3; }
+        String currentGender = userSettings.getGender();
+        String gender1 = getResources().getStringArray(R.array.genders)[1];
+        String gender2 = getResources().getStringArray(R.array.genders)[2];
+        String gender3 = getResources().getStringArray(R.array.genders)[3];
+
+        if (currentGender.equals(gender1)) { genderPosition = 1; }
+        else if (currentGender.equals(gender2)) { genderPosition = 2; }
+        else if (currentGender.equals(gender3)) { genderPosition = 3; }
         gender.setSelection(genderPosition);
 
         int lookingForGenderPosition = 0;
-        if (userSettings.getLookingForGender().equals(
-                getResources().getStringArray(R.array.genders)[0])) { lookingForGenderPosition = 0; }
-        else if (userSettings.getLookingForGender().equals(
-                getResources().getStringArray(R.array.genders)[1])) { lookingForGenderPosition = 1; }
-        else if (userSettings.getLookingForGender().equals(
-                getResources().getStringArray(R.array.genders)[2])) { lookingForGenderPosition = 2; }
-        else if (userSettings.getLookingForGender().equals(
-                getResources().getStringArray(R.array.genders)[3])) { lookingForGenderPosition = 3; }
-        gender.setSelection(lookingForGenderPosition);
+        String currentLookingForGender = userSettings.getLookingForGender();
+        if (currentLookingForGender.equals(gender1)) { lookingForGenderPosition = 1; }
+        else if (currentLookingForGender.equals(gender2)) { lookingForGenderPosition = 2; }
+        else if (currentLookingForGender.equals(gender3)) { lookingForGenderPosition = 3; }
+        lookingForGender.setSelection(lookingForGenderPosition);
 
         int privacyPosition;
         if (userSettings.getPrivateAccount()) { privacyPosition = 0; }
@@ -181,7 +173,7 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    public void onSaveSettingsSubmit(View view) {
+    private void onSaveSettingsSubmit(View view) {
         if (view == getActivity().findViewById(R.id.button_save_settings)) {
                 // Max Distance Validation - Must be >1
             int maxDist = Integer.parseInt(maxDistance.getText().toString());
@@ -215,12 +207,14 @@ public class SettingsFragment extends Fragment {
                 userSettings.setMaxDistance(maxDist);
                 userSettings.setMinAge(minAgeVal);
                 userSettings.setMaxAge(maxAgeVal);
+                Log.e("saving gender as:", gender.getSelectedItem().toString());
                 userSettings.setGender(gender.getSelectedItem().toString());
+
+                Log.e("saving lookingForGender as:", lookingForGender.getSelectedItem().toString());
                 userSettings.setLookingForGender(lookingForGender.getSelectedItem().toString());
                 boolean accountIsPrivate;
-                if (accountPrivacy.getSelectedItem().toString().equals(getResources().getStringArray(R.array.account_privacy)[0])) {
-                    accountIsPrivate = true;
-                } else { accountIsPrivate = false; }
+                accountIsPrivate = accountPrivacy.getSelectedItem().toString()
+                        .equals(getResources().getStringArray(R.array.account_privacy)[0]);
                 userSettings.setPrivateAccount(accountIsPrivate);
                 userSettings.setReminderTime(reminderTimeString);
 
