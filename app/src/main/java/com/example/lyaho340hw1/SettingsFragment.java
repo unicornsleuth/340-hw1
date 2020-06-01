@@ -31,7 +31,7 @@ public class SettingsFragment extends Fragment {
     public EditText minAge;
     public EditText maxAge;
     public Button saveSettingsButton;
-    private UserSettings userSettings;
+    private UserSettings userSettings = new UserSettings();
 
     private UserSettingsViewModel vm;
     private static final String TAG = SettingsFragment.class.getSimpleName();
@@ -185,6 +185,9 @@ public class SettingsFragment extends Fragment {
 //    }
 
     public void loadSettingsIntoForm() {
+        if (userSettings == null) {
+            userSettings = new UserSettings();
+        }
         maxDistance.setText(Integer.toString(userSettings.getMaxDistance()));
 
         if (!userSettings.getReminderTime().equals("")) { reminderTimeString = userSettings.getReminderTime(); }
