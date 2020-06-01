@@ -150,6 +150,8 @@ public class SettingsFragment extends Fragment {
                 userSettings = settingsFromAppDatabase;
             } else {
                 userSettings.setEmail(email);
+                // this is a test - remove later
+                userSettings.setMaxAge(69);
             }
         }
         // Set values in form
