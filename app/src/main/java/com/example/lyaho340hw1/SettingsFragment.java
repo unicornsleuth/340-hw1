@@ -222,7 +222,9 @@ public class SettingsFragment extends Fragment {
                 boolean accountIsPrivate = accountPrivacy.getSelectedItem().toString()
                         .equals(getResources().getStringArray(R.array.account_privacy)[0]);
                 userSettings.setPrivateAccount(accountIsPrivate);
-                userSettings.setReminderTime(reminderTimeString);
+                if (reminderTimeString != null) {
+                    userSettings.setReminderTime(reminderTimeString);
+                }
 
                 // update the database
                 vm.insert(userSettings);
