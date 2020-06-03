@@ -59,7 +59,7 @@ public class SettingsFragmentTest {
         // maxAge, input
         onView(withId(R.id.editText_max_age)).perform(scrollTo())
                 .perform(click()).perform(typeText("45"));
-        
+
         Context context = activityTestRule.getActivity().getApplicationContext();
         // scroll to gender, switch opt 2
         String[] genders = context.getResources().getStringArray(R.array.genders);

@@ -120,8 +120,12 @@ public class SettingsFragment extends Fragment {
                         public void onChanged(@Nullable final UserSettings userSettingsFromDb) {
                             // Update the cached copy of the settings
                             userSettings = userSettingsFromDb;
+                            if (userSettings == null) {
+                                userSettings = new UserSettings();
+                                userSettings.setEmail(email);
+                            }
+                            Log.e(TAG, "from database, gender is " + userSettings.getGender());
                             loadSettingsIntoForm();
-                            Log.d(TAG, "loadSettingsIntoForm() invoked");
                         }
                     });
                 }
@@ -142,6 +146,7 @@ public class SettingsFragment extends Fragment {
         int minute = Integer.parseInt(reminderTimeString.substring(3, 4));
         reminderTimePicker.setMinute(minute);
 
+        Log.e("loading gender as:", userSettings.getGender());
         int genderPosition = 0;
         String currentGender = userSettings.getGender();
         String gender1 = getResources().getStringArray(R.array.genders)[1];
@@ -153,6 +158,7 @@ public class SettingsFragment extends Fragment {
         else if (currentGender.equals(gender3)) { genderPosition = 3; }
         gender.setSelection(genderPosition);
 
+        Log.e("loading looking for gender as:", userSettings.getLookingForGender());
         int lookingForGenderPosition = 0;
         String currentLookingForGender = userSettings.getLookingForGender();
         if (currentLookingForGender.equals(gender1)) { lookingForGenderPosition = 1; }
@@ -171,6 +177,7 @@ public class SettingsFragment extends Fragment {
         if ((Integer) userSettings.getMaxAge() != null && userSettings.getMaxAge() != 0) {
             maxAge.setText(Integer.toString(userSettings.getMaxAge()));
         }
+        Log.d(TAG, "loadSettingsIntoForm() invoked");
     }
 
     private void onSaveSettingsSubmit(View view) {
@@ -212,14 +219,14 @@ public class SettingsFragment extends Fragment {
 
                 Log.e("saving lookingForGender as:", lookingForGender.getSelectedItem().toString());
                 userSettings.setLookingForGender(lookingForGender.getSelectedItem().toString());
-                boolean accountIsPrivate;
-                accountIsPrivate = accountPrivacy.getSelectedItem().toString()
+                boolean accountIsPrivate = accountPrivacy.getSelectedItem().toString()
                         .equals(getResources().getStringArray(R.array.account_privacy)[0]);
                 userSettings.setPrivateAccount(accountIsPrivate);
                 userSettings.setReminderTime(reminderTimeString);
 
                 // update the database
                 vm.insert(userSettings);
+                loadSettingsIntoForm();
 
                 // toast
                 Toast toast = Toast.makeText(getContext(), "Settings Saved", Toast.LENGTH_SHORT);
