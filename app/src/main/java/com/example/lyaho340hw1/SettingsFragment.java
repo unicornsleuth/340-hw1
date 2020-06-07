@@ -184,6 +184,7 @@ public class SettingsFragment extends Fragment {
         if ((Integer) userSettings.getMaxAge() != null && userSettings.getMaxAge() != 0) {
             maxAge.setText(Integer.toString(userSettings.getMaxAge()));
         }
+        callback.sendSettings(new SettingsWrapper(userSettings.getMaxDistance()));
         Log.d(TAG, "loadSettingsIntoForm() invoked");
     }
 

@@ -118,12 +118,16 @@ public class MainActivity extends AppCompatActivity implements OnChangeSettingsL
 
     @Override
     public void sendSettings(SettingsWrapper settings) {
+        Log.e("settings received: ", Integer.toString(settings.getMaxDistance()));
         if (settings != null && settings.getMaxDistance() != settingsWrapper.getMaxDistance()) {
             settingsWrapper = settings;
         }
         MatchesFragment matchesFrag = (MatchesFragment)
                 getSupportFragmentManager().findFragmentByTag("MatchesFragment");
-        if (matchesFrag != null) matchesFrag.updateMaxDistance(settingsWrapper.getMaxDistance());
+        if (matchesFrag != null) {
+            matchesFrag.updateMaxDistance(settingsWrapper.getMaxDistance());
+            Log.e("calling updateMaxDistance ", "from sendSettings");
+        }
     }
 
     @Override
