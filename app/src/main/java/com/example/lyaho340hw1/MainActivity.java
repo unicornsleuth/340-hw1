@@ -15,17 +15,22 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnChangeSettingsListener {
+public class MainActivity extends AppCompatActivity
+        //implements OnChangeSettingsListener
+        {
 
     private String[] tabNames;
     private static final String TAG = MainActivity.class.getSimpleName();
     public UserSettings currentUserSettings;
-    public SettingsWrapper settingsWrapper;
+    //public SettingsWrapper settingsWrapper;
+    //OnChangeSettingsListener callback;
+
+//    public void setOnChangeSettingsListener(OnChangeSettingsListener callback) {
+//        this.callback = callback;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +55,14 @@ public class MainActivity extends AppCompatActivity implements OnChangeSettingsL
         ).attach();
 
         // loadSignInState();
-        settingsWrapper = new SettingsWrapper();
-        settingsWrapper.setListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                SettingsWrapper settings = (SettingsWrapper) evt.getNewValue();
-                sendSettings(settings);
-            }
-        });
+//        settingsWrapper = new SettingsWrapper();
+//        settingsWrapper.setListener(new PropertyChangeListener() {
+//            @Override
+//            public void propertyChange(PropertyChangeEvent evt) {
+//                SettingsWrapper settings = (SettingsWrapper) evt.getNewValue();
+//                //sendSettings(settings);
+//            }
+//        });
 
         Log.d(TAG,"onCreate invoked");
     }
@@ -96,15 +101,6 @@ public class MainActivity extends AppCompatActivity implements OnChangeSettingsL
             }
         }
 
-        public void sendMaxDistanceToMatches(int max) {
-            for (int i = 0; i < mFragmentTitleList.size(); i++) {
-                if (mFragmentTitleList.get(i).equals("Matches")) {
-                    ((MatchesFragment) mFragmentList.get(i)).updateMaxDistance(max);
-                }
-            }
-
-        }
-
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
@@ -116,33 +112,30 @@ public class MainActivity extends AppCompatActivity implements OnChangeSettingsL
         }
     } // end Adapter class
 
-    @Override
-    public void sendSettings(SettingsWrapper settings) {
-        Log.e("settings received: ", Integer.toString(settings.getMaxDistance()));
-        if (settings != null && settings.getMaxDistance() != settingsWrapper.getMaxDistance()) {
-            settingsWrapper = settings;
-        }
-        MatchesFragment matchesFrag = (MatchesFragment)
-                getSupportFragmentManager().findFragmentByTag("MatchesFragment");
-        if (matchesFrag != null) {
-            matchesFrag.updateMaxDistance(settingsWrapper.getMaxDistance());
-            Log.e("calling updateMaxDistance ", "from sendSettings");
-        }
-    }
+//    @Override
+//    public void sendSettings(SettingsWrapper settings) {
+//        // what to do with Settings once received from SettingsFragment
+//        Log.e(TAG, "settings received from SettingsFragment: " + Integer.toString(settings.getMaxDistance()));
+//        if (settings != null && settings.getMaxDistance() != settingsWrapper.getMaxDistance()) {
+//            settingsWrapper = settings;
+//            //callback.sendSettings(settingsWrapper);
+//        }
+//    }
 
-    @Override
-    public void onAttachFragment(Fragment fragment) {
-        super.onAttachFragment(fragment);
-        if (fragment instanceof SettingsFragment) {
-            SettingsFragment settingsFragment = (SettingsFragment) fragment;
-            settingsFragment.setOnChangeSettingsListener(this);
-        } else if (fragment instanceof MatchesFragment) {
-            MatchesFragment matchesFragment = (MatchesFragment) fragment;
-            if (currentUserSettings != null) {
-                matchesFragment
-                        .updateMaxDistance(currentUserSettings.getMaxDistance());
-            }
-        }
-    }
+//    @Override
+//    public void onAttachFragment(Fragment fragment) {
+//        super.onAttachFragment(fragment);
+//        if (fragment instanceof SettingsFragment) {
+//            SettingsFragment settingsFragment = (SettingsFragment) fragment;
+//            //settingsFragment.setOnChangeSettingsListener(this);
+//        }
+//        else if (fragment instanceof MatchesFragment) {
+//            MatchesFragment matchesFragment = (MatchesFragment) fragment;
+////            if (currentUserSettings != null) {
+////                matchesFragment
+////                        .updateMaxDistance(currentUserSettings.getMaxDistance());
+////            }
+//        }
+//    }
 
 }
