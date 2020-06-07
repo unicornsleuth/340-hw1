@@ -9,7 +9,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
-import androidx.test.espresso.IdlingResource;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -23,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] tabNames;
     private static final String TAG = MainActivity.class.getSimpleName();
-    public String userEmail;
-    private IdlingResource idlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

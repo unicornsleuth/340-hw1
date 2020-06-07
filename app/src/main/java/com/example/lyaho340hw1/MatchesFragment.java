@@ -1,7 +1,14 @@
 package com.example.lyaho340hw1;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +19,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,13 +31,17 @@ import java.util.ArrayList;
 public class MatchesFragment extends Fragment {
 
     private MatchViewModel vm;
-    private ArrayList<Match> matchList;
+    private LocationManager locationManager;
+    public double longitudeGPS, latitudeGPS;
+    private ContentAdapter adapter;
+    private int maxDistance = 10;
+
     private static final String TAG = MatchesFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Context context = getContext();
         ScrollView scrollView = (ScrollView) inflater.inflate(
                 R.layout.recycler_view, container, false);
 
@@ -37,12 +50,89 @@ public class MatchesFragment extends Fragment {
 //                R.layout.recycler_view, container, false);
 
         vm = new MatchViewModel();
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(), vm);
+        adapter = new ContentAdapter(recyclerView.getContext(), vm);
         recyclerView.setAdapter(adapter);
+
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        toggleNetworkUpdates();
 
         Log.d(TAG, "onCreateView invoked");
         return recyclerView;
     }
+
+    private boolean checkLocation() {
+        if(!isLocationEnabled()) {
+            showAlert();
+        }
+        Log.e(TAG, "checkLocation invoked");
+        return isLocationEnabled();
+    }
+
+    private boolean isLocationEnabled() {
+        Log.e(TAG, "isLocationEnabled invoked");
+        return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setTitle(R.string.enable_location)
+                .setMessage(getString(R.string.enable_location_message))
+                .setPositiveButton(R.string.location_settings, (paramDialogInterface, paramInt) -> {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                })
+                .setNegativeButton(R.string.location_cancel, (paramDialogInterface, paramInt) -> {});
+        dialog.show();
+    }
+
+    // this turns location on/off - set as property to start/stop button (takes View view)
+    public void toggleNetworkUpdates() {
+        Context context = getContext();
+        if(!checkLocation()) {
+            return;
+        }
+//        Button button = (Button) view;
+//        if(button.getText().equals(getResources().getString(R.string.pause))) {
+//            locationManager.removeUpdates(locationListenerNetwork);
+//            button.setText(R.string.resume);
+//        }
+//        else {
+            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60 * 1000, 10, locationListenerNetwork);
+
+                Log.e(TAG, "network provider started running");
+                //button.setText(R.string.pause);
+            }
+//        }
+        Log.e(TAG, "toggleNetworkUpdates invoked");
+    }
+
+    private final LocationListener locationListenerNetwork = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            longitudeGPS = location.getLongitude();
+            latitudeGPS = location.getLatitude();
+            Activity activity = getActivity();
+            activity.runOnUiThread(() -> {
+                // Change Display
+                adapter.filterArrayByDistance(latitudeGPS, longitudeGPS, maxDistance);
+                Log.e(TAG, "onLocationChanged invoked");
+                Toast.makeText(activity, "showing matches within 10 miles", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onProviderDisabled(String provider) {}
+    };
 
     @Override
     public void onPause() {
@@ -70,9 +160,6 @@ public class MatchesFragment extends Fragment {
     }
 
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        // Set numbers of List in RecyclerView.
-        // I think this should be something like a getLength() from firebase?
-        //private static final int LENGTH = 6;
         private MatchViewModel vm;
         private ArrayList<Match> matchList;
 
@@ -81,7 +168,6 @@ public class MatchesFragment extends Fragment {
             matchList = new ArrayList<>();
             context.getResources();
             vm.getMatches((ArrayList<Match> matches) -> {
-                // Log.e("onCreateViewHolder: matches.get(0).getImageUrl()", matches.get(0).getImageUrl());
                 for (Match match : matches) {
                     if (!matchList.contains(match)) {
                         matchList.add(match);
@@ -91,9 +177,26 @@ public class MatchesFragment extends Fragment {
             });
         }
 
-        public void setMatchArray(ArrayList<Match> matches) {
-            matchList.clear();
-            matchList.addAll(matches);
+        public boolean gpsIsWithinDistance(double distance, double startLat, double startLong, Match match) {
+            float[] results = new float[1];
+            Location.distanceBetween(startLat, startLong, match.getLatitude(), match.getLongitude(), results);
+            results[0] = (float) (results[0]/1609.344);
+            Log.e(TAG, results[0] + " <= " + distance + "?");
+            return results[0] <= distance;
+        }
+
+        public void filterArrayByDistance(double startLat, double startLong, double distance) {
+            vm.clear();
+            vm.getMatches((ArrayList<Match> matches) -> {
+                for (Match match : matches) {
+                    if (!matchList.contains(match)
+                            && gpsIsWithinDistance(distance, startLat, startLong, match)) {
+                        matchList.add(match);
+                    }
+                }
+            });
+            Log.e(TAG, "filterArrayByDistance invoked");
+            notifyDataSetChanged();
         }
 
         @Override
@@ -104,11 +207,13 @@ public class MatchesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Log.e("onBindViewHolder; first imageUrl in matchList", matchList.get(0).getImageUrl());
+            Log.d(TAG, matchList.get(0).getImageUrl());
             Match currentMatch;
             if (matchList != null) {
                 currentMatch = matchList.get(position % matchList.size());
-                Log.e("first imageUrl in matchList", matchList.get(0).getImageUrl());
+                // CONDITIONAL RENDERING
+            //    if (currentMatch).getLatitude()
+                Log.d(TAG, matchList.get(0).getImageUrl());
                 Picasso.get().load(currentMatch.getImageUrl()).into(holder.image);
                 holder.matchName.setText(currentMatch.getName());
             } else { currentMatch = new Match(); }

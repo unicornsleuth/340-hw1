@@ -85,4 +85,9 @@
         <item>public</item>
     </string-array>
 
+    // LOCATION SERVICES
+    <string name="enable_location">Enable Location</string>
+    <string name="enable_location_message">please enable location to continue</string>
+    <string name="location_settings">location settings</string>
+    <string name="location_cancel">cancel</string>
 </resources>
