@@ -15,13 +15,17 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnChangeSettingsListener {
 
     private String[] tabNames;
     private static final String TAG = MainActivity.class.getSimpleName();
+    public UserSettings currentUserSettings;
+    public SettingsWrapper settingsWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
         ).attach();
 
         // loadSignInState();
+        settingsWrapper = new SettingsWrapper();
+        settingsWrapper.setListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                SettingsWrapper settings = (SettingsWrapper) evt.getNewValue();
+                sendSettings(settings);
+            }
+        });
 
         Log.d(TAG,"onCreate invoked");
     }
@@ -58,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new SettingsFragment(), getResources().getString(R.string.tab_name_settings));
         viewPager.setAdapter(adapter);
     }
+
+    // ADAPTER
 
     static class Adapter extends FragmentStateAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -80,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     return null;
             }
+        }
+
+        public void sendMaxDistanceToMatches(int max) {
+            for (int i = 0; i < mFragmentTitleList.size(); i++) {
+                if (mFragmentTitleList.get(i).equals("Matches")) {
+                    ((MatchesFragment) mFragmentList.get(i)).updateMaxDistance(max);
+                }
+            }
 
         }
 
@@ -91,6 +113,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return mFragmentList.size();
+        }
+    } // end Adapter class
+
+    @Override
+    public void sendSettings(SettingsWrapper settings) {
+        if (settings != null && settings.getMaxDistance() != settingsWrapper.getMaxDistance()) {
+            settingsWrapper = settings;
+        }
+        MatchesFragment matchesFrag = (MatchesFragment)
+                getSupportFragmentManager().findFragmentByTag("MatchesFragment");
+        if (matchesFrag != null) matchesFrag.updateMaxDistance(settingsWrapper.getMaxDistance());
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment instanceof SettingsFragment) {
+            SettingsFragment settingsFragment = (SettingsFragment) fragment;
+            settingsFragment.setOnChangeSettingsListener(this);
+        } else if (fragment instanceof MatchesFragment) {
+            MatchesFragment matchesFragment = (MatchesFragment) fragment;
+            if (currentUserSettings != null) {
+                matchesFragment
+                        .updateMaxDistance(currentUserSettings.getMaxDistance());
+            }
         }
     }
 

@@ -26,39 +26,62 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 public class MatchesFragment extends Fragment {
 
     private MatchViewModel vm;
     private LocationManager locationManager;
-    public double longitudeGPS, latitudeGPS;
+    public UserLocation userLocation;
     private ContentAdapter adapter;
     private int maxDistance = 10;
+    private RecyclerView matchRecycler;
 
     private static final String TAG = MatchesFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Context context = getContext();
         ScrollView scrollView = (ScrollView) inflater.inflate(
                 R.layout.recycler_view, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) scrollView.findViewById(R.id.my_recycler_view);
+        matchRecycler = (RecyclerView) scrollView.findViewById(R.id.my_recycler_view);
 //        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
 //                R.layout.recycler_view, container, false);
 
         vm = new MatchViewModel();
-        adapter = new ContentAdapter(recyclerView.getContext(), vm);
-        recyclerView.setAdapter(adapter);
 
+        userLocation = new UserLocation();
+        userLocation.setListener(onLocationChange);
+
+        adapter = new ContentAdapter(matchRecycler.getContext(), vm, maxDistance, userLocation);
+        matchRecycler.setAdapter(adapter);
+
+        Context context = getContext();
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         toggleNetworkUpdates();
 
         Log.d(TAG, "onCreateView invoked");
-        return recyclerView;
+        return matchRecycler;
+}
+
+    private final PropertyChangeListener onLocationChange = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            UserLocation newLocation = (UserLocation)evt.getNewValue();
+            Log.e("from PropertyChangeListener", "lat: " + newLocation.getLat() + ", long: " + newLocation.getLong());
+            adapter.filterArrayByDistance(newLocation.getLat(), newLocation.getLong(), maxDistance);
+        }
+    };
+
+    public void updateMaxDistance(int newMax) {
+        this.maxDistance = newMax;
+        adapter.filterArrayByDistance(userLocation.getLat(), userLocation.getLong(), newMax);
     }
+
+    // LOCATION
 
     private boolean checkLocation() {
         if(!isLocationEnabled()) {
@@ -91,36 +114,26 @@ public class MatchesFragment extends Fragment {
         if(!checkLocation()) {
             return;
         }
-//        Button button = (Button) view;
-//        if(button.getText().equals(getResources().getString(R.string.pause))) {
-//            locationManager.removeUpdates(locationListenerNetwork);
-//            button.setText(R.string.resume);
-//        }
-//        else {
-            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                    ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60 * 1000, 10, locationListenerNetwork);
-
-                Log.e(TAG, "network provider started running");
-                //button.setText(R.string.pause);
-            }
-//        }
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60 * 1000, 10, locationListenerNetwork);
+            Log.e(TAG, "network provider started running");
+        }
         Log.e(TAG, "toggleNetworkUpdates invoked");
     }
 
     private final LocationListener locationListenerNetwork = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            longitudeGPS = location.getLongitude();
-            latitudeGPS = location.getLatitude();
+            double longitudeGPS = location.getLongitude();
+            double latitudeGPS = location.getLatitude();
             Activity activity = getActivity();
             activity.runOnUiThread(() -> {
                 // Change Display
+                userLocation.setLong(longitudeGPS);
+                userLocation.setLat(latitudeGPS);
                 adapter.filterArrayByDistance(latitudeGPS, longitudeGPS, maxDistance);
                 Log.e(TAG, "onLocationChanged invoked");
-                Toast.makeText(activity, "showing matches within 10 miles", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "showing matches within 10 miles", Toast.LENGTH_LONG).show();
             });
         }
 
@@ -132,7 +145,7 @@ public class MatchesFragment extends Fragment {
 
         @Override
         public void onProviderDisabled(String provider) {}
-    };
+    }; // end LocationListener
 
     @Override
     public void onPause() {
@@ -155,47 +168,46 @@ public class MatchesFragment extends Fragment {
             likeButton = (ImageButton) itemView.findViewById(R.id.like_button);
             matchName = (TextView) itemView.findViewById(R.id.match_name);
         }
-
-
     }
 
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         private MatchViewModel vm;
         private ArrayList<Match> matchList;
 
-        public ContentAdapter(Context context, MatchViewModel viewModel) {
+        public ContentAdapter(Context context, MatchViewModel viewModel, int maxDist, UserLocation loc) {
             this.vm = viewModel;
             matchList = new ArrayList<>();
             context.getResources();
             vm.getMatches((ArrayList<Match> matches) -> {
                 for (Match match : matches) {
-                    if (!matchList.contains(match)) {
+                    boolean passes = gpsIsWithinDistance(maxDist, loc.getLat(), loc.getLong(), match);
+                    if (matchList.contains(match) && !passes) {
+                        matchList.remove(match);
+                    } else if (!matchList.contains(match) && passes) {
                         matchList.add(match);
                     }
                 }
+                Log.e(TAG, "getMatches() invoked");
                 notifyDataSetChanged();
             });
-        }
+        } // end ContentAdapter constructor
 
-        public boolean gpsIsWithinDistance(double distance, double startLat, double startLong, Match match) {
+        public boolean gpsIsWithinDistance(int distance, double startLat, double startLong, Match match) {
             float[] results = new float[1];
             Location.distanceBetween(startLat, startLong, match.getLatitude(), match.getLongitude(), results);
             results[0] = (float) (results[0]/1609.344);
             Log.e(TAG, results[0] + " <= " + distance + "?");
-            return results[0] <= distance;
+            return results[0] <= (double) distance;
         }
 
-        public void filterArrayByDistance(double startLat, double startLong, double distance) {
-            vm.clear();
-            vm.getMatches((ArrayList<Match> matches) -> {
-                for (Match match : matches) {
-                    if (!matchList.contains(match)
-                            && gpsIsWithinDistance(distance, startLat, startLong, match)) {
-                        matchList.add(match);
-                    }
+        public void filterArrayByDistance(double startLat, double startLong, int distance) {
+            for (Match match : matchList) {
+                boolean passes = gpsIsWithinDistance(distance, startLat, startLong, match);
+                if (matchList.contains(match) && !passes) {
+                    matchList.remove(match);
                 }
-            });
-            Log.e(TAG, "filterArrayByDistance invoked");
+            }
+            Log.d(TAG, "filterArrayByDistance invoked");
             notifyDataSetChanged();
         }
 
@@ -207,13 +219,11 @@ public class MatchesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Log.d(TAG, matchList.get(0).getImageUrl());
+            //Log.d(TAG, matchList.get(0).getImageUrl());
             Match currentMatch;
             if (matchList != null) {
                 currentMatch = matchList.get(position % matchList.size());
-                // CONDITIONAL RENDERING
-            //    if (currentMatch).getLatitude()
-                Log.d(TAG, matchList.get(0).getImageUrl());
+                //Log.d(TAG, matchList.get(0).getImageUrl());
                 Picasso.get().load(currentMatch.getImageUrl()).into(holder.image);
                 holder.matchName.setText(currentMatch.getName());
             } else { currentMatch = new Match(); }
@@ -240,11 +250,11 @@ public class MatchesFragment extends Fragment {
                     toast.show();
                 }
             });
-        }
+        } // end onBindViewHolder
 
         @Override
         public int getItemCount() {
             return matchList.size();
         }
-    }
+    } // end ContentAdapter
 }

@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class SettingsFragment extends Fragment {
 
+    OnChangeSettingsListener callback;
     private EditText maxDistance;
     private TimePicker reminderTimePicker;
     private String reminderTimeString;
@@ -35,6 +36,10 @@ public class SettingsFragment extends Fragment {
 
     private UserSettingsViewModel vm;
     private static final String TAG = SettingsFragment.class.getSimpleName();
+
+    public void setOnChangeSettingsListener(OnChangeSettingsListener callback) {
+        this.callback = callback;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,6 +101,8 @@ public class SettingsFragment extends Fragment {
                 onSaveSettingsSubmit(v);
             }
         });
+
+
 
         Log.d(TAG, "onCreateView invoked");
         return view;
@@ -229,6 +236,7 @@ public class SettingsFragment extends Fragment {
                 // update the database
                 vm.insert(userSettings);
                 loadSettingsIntoForm();
+                callback.sendSettings(new SettingsWrapper(userSettings.getMaxDistance()));
 
                 // toast
                 Toast toast = Toast.makeText(getContext(), "Settings Saved", Toast.LENGTH_SHORT);

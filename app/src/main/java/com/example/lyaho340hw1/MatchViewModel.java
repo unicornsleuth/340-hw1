@@ -34,41 +34,6 @@ public class MatchViewModel {
                 (databaseError -> System.out.println("Error reading from Matches: " + databaseError))
         );
     }
-//    public ArrayList<Match> getMatches(onGetDataListener<Match> activityCallback) {
-//        matchModel.getData(new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-//                if (e != null) {
-//                    System.out.println("Error reading from database: " + e);
-//                    activityCallback.onFailure();
-//                    return;
-//                }
-//                if (documentSnapshot != null) {
-//                    // gets all data in the collection
-//                    Map<String, Object> data = documentSnapshot.getData();
-//                    // data is null!
-//                    //Log.e("documentSnapshot.getData() results", data.toString());
-//                    if (data != null) {
-//                        Collection<Object> dataMapValues = data.values();
-//                        // get all documents in this collection separately
-//                        for (Object firebaseUser : dataMapValues) {
-//                            // check the info that comes in from firebaseUser - use setters
-//                            if (firebaseUser != null) {
-//                                Match currMatch = new Match();
-//                                // get data out of it! - set it to user?
-//                                //currMatch.setName(firebaseUser);
-//                                Log.e("data.toString() results", firebaseUser.toString());
-//                                matchList.add(currMatch);
-//                                // change onSuccess to fill in fields in each match - should take a match (give it match)
-//                                activityCallback.onSuccess(currMatch);
-//                        }
-//                    }
-//                    }
-//                }
-//            }
-//        });
-//        return matchList;
-//    }
 
     public void clear() {
         matchModel.clear();
