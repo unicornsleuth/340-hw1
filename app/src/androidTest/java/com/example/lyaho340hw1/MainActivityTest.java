@@ -81,7 +81,7 @@ public class MainActivityTest {
     public void tabsLoadViews() throws InterruptedException {
         // Click on Matches Tab
         onView(withText(R.string.tab_name_matches)).perform(click());
-        Thread.sleep(15000);
+        Thread.sleep(20000);
         //onView(allOf(withId(R.id.match_picture), isDisplayingAtLeast(30))).perform(scrollTo());
         // Check Matches
         onView(allOf(withId(R.id.match_picture), isDisplayingAtLeast(80)))
