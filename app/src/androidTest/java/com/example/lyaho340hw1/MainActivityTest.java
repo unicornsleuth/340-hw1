@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.test.espresso.IdlingResource;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -36,7 +35,6 @@ public class MainActivityTest {
             = new ActivityTestRule<>(MainActivity.class, true, false);
 
     private MainActivity mainActivity = null;
-    private IdlingResource idlingResource;
 
     @Before
     public void setUp() {

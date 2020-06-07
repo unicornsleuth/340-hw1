@@ -65,7 +65,7 @@ public class MatchesFragment extends Fragment
         toggleNetworkUpdates();
 
         // temporarily set maxDistance to 10
-        settings = new SettingsWrapper(10);
+        settings = new SettingsWrapper(10000);
         settings.setListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
