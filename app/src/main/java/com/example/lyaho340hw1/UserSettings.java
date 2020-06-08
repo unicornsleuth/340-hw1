@@ -1,15 +1,14 @@
 package com.example.lyaho340hw1;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_settings")
-class UserSettings implements Parcelable {
+class UserSettings
+        //implements Parcelable
+        {
 
     @NonNull
     @PrimaryKey
@@ -49,28 +48,28 @@ class UserSettings implements Parcelable {
 
     // ACCESSORS
 
-    protected UserSettings(Parcel in) {
-        email = in.readString();
-        reminderTime = in.readString();
-        maxDistance = in.readInt();
-        gender = in.readString();
-        lookingForGender = in.readString();
-        privateAccount = in.readByte() != 0;
-        minAge = in.readInt();
-        maxAge = in.readInt();
-    }
+//    protected UserSettings(Parcel in) {
+//        email = in.readString();
+//        reminderTime = in.readString();
+//        maxDistance = in.readInt();
+//        gender = in.readString();
+//        lookingForGender = in.readString();
+//        privateAccount = in.readByte() != 0;
+//        minAge = in.readInt();
+//        maxAge = in.readInt();
+//    }
 
-    public static final Creator<UserSettings> CREATOR = new Creator<UserSettings>() {
-        @Override
-        public UserSettings createFromParcel(Parcel in) {
-            return new UserSettings(in);
-        }
-
-        @Override
-        public UserSettings[] newArray(int size) {
-            return new UserSettings[size];
-        }
-    };
+//    public static final Creator<UserSettings> CREATOR = new Creator<UserSettings>() {
+//        @Override
+//        public UserSettings createFromParcel(Parcel in) {
+//            return new UserSettings(in);
+//        }
+//
+//        @Override
+//        public UserSettings[] newArray(int size) {
+//            return new UserSettings[size];
+//        }
+//    };
 
     @NonNull
     public String getEmail() { return email; }
@@ -93,21 +92,21 @@ class UserSettings implements Parcelable {
     public void setMinAge(int newMinAge) { minAge = newMinAge; }
     public void setMaxAge(int newMaxAge) { maxAge = newMaxAge; }
 
-    @Override
-    public int describeContents() {
-        return 0; // STUB
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        // STUB
-        dest.writeString(email);
-        dest.writeString(reminderTime);
-        dest.writeInt(maxDistance);
-        dest.writeString(gender);
-        dest.writeString(lookingForGender);
-        dest.writeByte((byte) (privateAccount ? 1 : 0));
-        dest.writeInt(minAge);
-        dest.writeInt(maxAge);
-    }
+//    @Override
+//    public int describeContents() {
+//        return 0; // STUB
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        // STUB
+//        dest.writeString(email);
+//        dest.writeString(reminderTime);
+//        dest.writeInt(maxDistance);
+//        dest.writeString(gender);
+//        dest.writeString(lookingForGender);
+//        dest.writeByte((byte) (privateAccount ? 1 : 0));
+//        dest.writeInt(minAge);
+//        dest.writeInt(maxAge);
+//    }
 }

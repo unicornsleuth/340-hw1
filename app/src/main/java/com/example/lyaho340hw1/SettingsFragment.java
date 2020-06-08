@@ -85,6 +85,7 @@ public class SettingsFragment extends Fragment {
         reminderTimePicker.setIs24HourView(true);
         reminderTimePicker.setHour(12);
         reminderTimePicker.setMinute(0);
+        reminderTimeString = "12:00";
         reminderTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
