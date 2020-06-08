@@ -15,18 +15,11 @@ public class UserLocation {
         //if (listener != null) listener.propertyChange();
     }
 
-    public UserLocation(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        hasLat = true;
-        hasLong = true;
-    }
+//    public boolean isValid() {
+//        return hasLat && hasLong;
+//    }
 
-    public boolean isValid() {
-        return hasLat && hasLong;
-    }
-
-    public PropertyChangeListener getListener() { return listener; }
+//    public PropertyChangeListener getListener() { return listener; }
     public double getLat() { return latitude; }
     public double getLong() { return longitude; }
 

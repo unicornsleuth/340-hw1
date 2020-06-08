@@ -37,5 +37,8 @@ public class MatchesFragmentTest {
         onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50))).perform(click());
         onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50)))
                 .check(matches(withContentDescription(R.string.liked)));
+        onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50))).perform(click());
+        onView(allOf(withId(R.id.like_button), isDisplayingAtLeast(50)))
+                .check(matches(withContentDescription(R.string.not_liked)));
     }
 }
